@@ -163,6 +163,7 @@ class RecyclerFlatList extends React.PureComponent<RecyclerFlatListProps> {
         renderAheadOffset={PixelRatio.getPixelSizeForLayoutSize(
           props.renderAheadOffset
         )}
+        enableInstrumentation={true}
       >
         {children}
       </AutoLayoutView>

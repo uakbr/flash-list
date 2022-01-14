@@ -11,6 +11,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2D71BF4727918A620014C9F7 /* BlankAreaEventEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D71BF4627918A620014C9F7 /* BlankAreaEventEmitter.swift */; };
+		2D71BF4927918A8D0014C9F7 /* BlankAreaEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D71BF4827918A8D0014C9F7 /* BlankAreaEventEmitter.m */; };
 		3DC49B12F6F8B541D98AEF4B /* libPods-FlatListPro-FlatListProTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF16FFC07D66EA3092A57BE /* libPods-FlatListPro-FlatListProTests.a */; };
 		4C28D4195347110DD7EFF250 /* libPods-FlatListPro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C2CC4776DE30CFFD3D9728 /* libPods-FlatListPro.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -43,6 +45,8 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = FlatListPro/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = FlatListPro/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = FlatListPro/main.m; sourceTree = "<group>"; tabWidth = 4; };
+		2D71BF4627918A620014C9F7 /* BlankAreaEventEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankAreaEventEmitter.swift; sourceTree = "<group>"; };
+		2D71BF4827918A8D0014C9F7 /* BlankAreaEventEmitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlankAreaEventEmitter.m; sourceTree = "<group>"; };
 		5715F3B3165A79E0A40F6237 /* Pods-FlatListPro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlatListPro.debug.xcconfig"; path = "Target Support Files/Pods-FlatListPro/Pods-FlatListPro.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = FlatListPro/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8AF16FFC07D66EA3092A57BE /* libPods-FlatListPro-FlatListProTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlatListPro-FlatListProTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +116,8 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				F87583A427884599005C47F5 /* FlatListPro-Bridging-Header.h */,
+				2D71BF4627918A620014C9F7 /* BlankAreaEventEmitter.swift */,
+				2D71BF4827918A8D0014C9F7 /* BlankAreaEventEmitter.m */,
 			);
 			name = FlatListPro;
 			sourceTree = "<group>";
@@ -431,7 +437,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F87583A8278845E3005C47F5 /* AutoLayoutViewManager.swift in Sources */,
+				2D71BF4727918A620014C9F7 /* BlankAreaEventEmitter.swift in Sources */,
 				F87583B227884854005C47F5 /* CellContainer.swift in Sources */,
+				2D71BF4927918A8D0014C9F7 /* BlankAreaEventEmitter.m in Sources */,
 				F87583AE27884841005C47F5 /* CellContainerManager.swift in Sources */,
 				F87583B02788484A005C47F5 /* CellContainerManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
