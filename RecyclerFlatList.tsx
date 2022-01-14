@@ -6,6 +6,8 @@ import {
   ViewProps,
   ViewStyle,
   PixelRatio,
+  NativeEventEmitter,
+  NativeModules,
 } from "react-native";
 import {
   DataProvider,
@@ -16,6 +18,20 @@ import {
 import AutoLayoutView from "./AutoLayoutView";
 import ItemContainer from "./CellContainer";
 import WrapperComponent from "./WrapperComponent";
+import { Flipper, addPlugin } from "react-native-flipper";
+
+function bootstrapPlugin(): Promise<Flipper.FlipperConnection> {
+  return new Promise((resolve) => {
+    addPlugin({
+      getId: () => "flipper-plugin-react-native-performance",
+      onConnect: (connection) => {
+        return resolve(connection);
+      },
+      onDisconnect: () => {},
+      runInBackground: () => true,
+    });
+  });
+}
 
 export interface RecyclerFlatListProps extends ViewProps {
   data: [any];
@@ -41,6 +57,8 @@ class RecyclerFlatList extends React.PureComponent<RecyclerFlatListProps> {
   private dataProvider;
   private data;
   private keyExtractor;
+  private eventListener;
+  private connection;
 
   constructor(props) {
     super(props);
@@ -58,6 +76,7 @@ class RecyclerFlatList extends React.PureComponent<RecyclerFlatListProps> {
       return this.keyExtractor(r1) !== this.keyExtractor(r2);
     });
     this._rowRenderer = this.rowRenderer.bind(this);
+    bootstrapPlugin().then((conn) => (this.connection = conn));
   }
 
   // Taken from here: https://github.com/facebook/react-native/blob/main/Libraries/Lists/VirtualizeUtils.js#L233
@@ -123,6 +142,25 @@ class RecyclerFlatList extends React.PureComponent<RecyclerFlatListProps> {
       }
       return <View />;
     };
+  }
+
+  componentDidMount(): void {
+    const eventEmitter = new NativeEventEmitter(
+      NativeModules.BlankAreaEventEmitter
+    );
+    this.eventListener = eventEmitter.addListener(
+      "@shopify/recyclerflatlist/emit-blank-area",
+      (event) => {
+        if (this.connection && event.offset < 2000) {
+          this.connection.send("newData", { offset: event.offset });
+          console.log(event.offset);
+        }
+      }
+    );
+  }
+
+  componentWillUnmount(): void {
+    this.eventListener.remove();
   }
 
   render() {
