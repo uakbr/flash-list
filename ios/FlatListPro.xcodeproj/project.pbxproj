@@ -23,6 +23,9 @@
 		F87583AE27884841005C47F5 /* CellContainerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87583AD27884841005C47F5 /* CellContainerManager.swift */; };
 		F87583B02788484A005C47F5 /* CellContainerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F87583AF2788484A005C47F5 /* CellContainerManager.m */; };
 		F87583B227884854005C47F5 /* CellContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87583B127884854005C47F5 /* CellContainer.swift */; };
+		F8C3FA9D27957F9600562C8E /* BlankAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C3FA9C27957F9200562C8E /* BlankAreaView.swift */; };
+		F8C3FA9F27957FAB00562C8E /* BlankAreaViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C3FA9E27957FAB00562C8E /* BlankAreaViewManager.swift */; };
+		F8C3FAA127957FB700562C8E /* BlankAreaViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C3FAA027957FB700562C8E /* BlankAreaViewManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +67,9 @@
 		F87583AD27884841005C47F5 /* CellContainerManager.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = CellContainerManager.swift; sourceTree = "<group>"; tabWidth = 4; };
 		F87583AF2788484A005C47F5 /* CellContainerManager.m */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = CellContainerManager.m; sourceTree = "<group>"; tabWidth = 4; };
 		F87583B127884854005C47F5 /* CellContainer.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = CellContainer.swift; sourceTree = "<group>"; tabWidth = 4; };
+		F8C3FA9C27957F9200562C8E /* BlankAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankAreaView.swift; sourceTree = "<group>"; };
+		F8C3FA9E27957FAB00562C8E /* BlankAreaViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankAreaViewManager.swift; sourceTree = "<group>"; };
+		F8C3FAA027957FB700562C8E /* BlankAreaViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlankAreaViewManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +126,9 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				F87583A427884599005C47F5 /* FlatListPro-Bridging-Header.h */,
 				2D71BF4627918A620014C9F7 /* BlankAreaEventEmitter.swift */,
+				F8C3FA9C27957F9200562C8E /* BlankAreaView.swift */,
+				F8C3FA9E27957FAB00562C8E /* BlankAreaViewManager.swift */,
+				F8C3FAA027957FB700562C8E /* BlankAreaViewManager.m */,
 				2D71BF4827918A8D0014C9F7 /* BlankAreaEventEmitter.m */,
 				2D71BF4D2791B8770014C9F7 /* AutoLayoutViewTests.swift */,
 				2D71BF4C2791B8770014C9F7 /* FlatListProTests-Bridging-Header.h */,
@@ -443,11 +452,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8C3FA9F27957FAB00562C8E /* BlankAreaViewManager.swift in Sources */,
 				F87583A8278845E3005C47F5 /* AutoLayoutViewManager.swift in Sources */,
 				2D71BF4727918A620014C9F7 /* BlankAreaEventEmitter.swift in Sources */,
 				F87583B227884854005C47F5 /* CellContainer.swift in Sources */,
 				2D71BF4927918A8D0014C9F7 /* BlankAreaEventEmitter.m in Sources */,
 				F87583AE27884841005C47F5 /* CellContainerManager.swift in Sources */,
+				F8C3FAA127957FB700562C8E /* BlankAreaViewManager.m in Sources */,
+				F8C3FA9D27957F9600562C8E /* BlankAreaView.swift in Sources */,
 				F87583B02788484A005C47F5 /* CellContainerManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				F87583AC278845FB005C47F5 /* AutoLayoutView.swift in Sources */,
