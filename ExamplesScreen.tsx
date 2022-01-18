@@ -20,7 +20,7 @@ export const ExamplesScreen = () => {
       <StatusBar barStyle="dark-content" />
       <FlatList
         keyExtractor={(item) => item.destination}
-        data={[{ title: "List", destination: NavigationKeys.LIST }]}
+        data={[{ title: "List", destination: NavigationKeys.LIST }, { title: "Grid", destination: NavigationKeys.GRID }]}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.row}

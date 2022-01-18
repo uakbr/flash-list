@@ -1,6 +1,7 @@
 export const NavigationKeys = {
   EXAMPLES: "Examples" as const,
   LIST: "List" as const,
+  GRID: "Grid" as const,
 };
 
 type ValueOf<T> = T[keyof T];
