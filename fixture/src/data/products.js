@@ -1,0 +1,58 @@
+export const products = [
+  {
+    name: "Agon",
+    stock: 0,
+    variants: 2,
+    status: "Active",
+    image: "https://url.jpg",
+  },
+  {
+    name: "Alex",
+    stock: 4,
+    variants: 2,
+    status: "Active",
+    image: "https://url.jpg",
+  },
+  {
+    name: "Atila",
+    stock: 5,
+    variants: 1,
+    status: "Active",
+    image: "https://url.jpg",
+  },
+  {
+    name: "Hutomo",
+    stock: 3,
+    variants: 1,
+    status: "Active",
+    image: "https://url.jpg",
+  },
+  {
+    name: "Jannis",
+    stock: 3,
+    variants: 1,
+    status: "Active",
+    image: "https://url.jpg",
+  },
+  {
+    name: "Raymond",
+    stock: 0,
+    variants: 2,
+    status: "Active",
+    image: "https://url.jpg",
+  },
+  {
+    name: "Stephan",
+    stock: 5,
+    variants: 2,
+    status: "Active",
+    image: "https://url.jpg",
+  },
+  {
+    name: "Veronica",
+    stock: 10,
+    variants: 2,
+    status: "Active",
+    image: "https://url.jpg",
+  },
+];

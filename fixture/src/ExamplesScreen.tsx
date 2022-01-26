@@ -18,8 +18,9 @@ export const ExamplesScreen = () => {
   const data = [
     { title: "List", destination: NavigationKeys.LIST },
     { title: "PaginatedList", destination: NavigationKeys.PAGINATED_LIST },
-    { title: "Twitter Timeline", destination: NavigationKeys.TWITTER }
-  ]
+    { title: "Twitter Timeline", destination: NavigationKeys.TWITTER },
+    { title: "Products list", destination: NavigationKeys.PRODUCTS },
+  ];
   return (
     <>
       <StatusBar barStyle="dark-content" />

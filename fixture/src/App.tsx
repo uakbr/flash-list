@@ -17,6 +17,7 @@ import { NavigationKeys, RootStackParamList } from "./constants";
 import { ExamplesScreen } from "./ExamplesScreen";
 import { useOnNativeBlankAreaEvents } from "@shopify/recycler-flat-list";
 import { useReactNativePerformanceFlipperPlugin } from "@shopify/recycler-flat-list";
+import Products from "./Products";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -39,6 +40,7 @@ const App = () => {
           component={PaginatedList}
         />
         <Stack.Screen name={NavigationKeys.TWITTER} component={Twitter} />
+        <Stack.Screen name={NavigationKeys.PRODUCTS} component={Products} />
       </Stack.Navigator>
     </NavigationContainer>
   );
