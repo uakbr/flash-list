@@ -1,10 +1,31 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, Image, StyleSheet, Button } from "react-native";
 import { RecyclerFlatList } from "@shopify/recycler-flat-list";
 import { products } from "./data/products.js";
 
-const ProductCell = () => {
-  return <View />;
+export interface Product {
+  name: string;
+  status: string;
+  stock: number;
+  variants: number;
+  image: string;
+}
+const ProductCell = (data) => {
+  const product: Product = data.item;
+  return (
+    <View style={styles.productCell}>
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} source={{ uri: product.image }} />
+      </View>
+      <View>
+        <Text style={styles.title}>{product.name}</Text>
+        <Text style={styles.subtitle}>
+          {product.variants} available · {product.variants} variants ·{" "}
+          {product.status}
+        </Text>
+      </View>
+    </View>
+  );
 };
 const Products = () => {
   return (
@@ -30,9 +51,7 @@ const Divider = () => {
 };
 
 const HeaderButton = ({ title }) => {
-  return (
-    <Button color="#fabada" backgroundColor="#fabada" title={title}></Button>
-  );
+  return <Button color="green" title={title}></Button>;
 };
 
 const Header = () => {
@@ -79,6 +98,32 @@ const styles = StyleSheet.create({
   },
   headerButton: {
     backgroundColor: "green",
+  },
+  imageContainer: {
+    width: 44,
+    height: 44,
+    overflow: "hidden",
+    marginRight: 8,
+  },
+  image: {
+    flex: 1,
+    width: 44,
+    height: 44,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "bold",
+    paddingBottom: 6,
+  },
+  subtitle: {
+    color: "#777",
+    fontSize: 13,
+  },
+  productCell: {
+    flexDirection: "row",
+    height: 60,
+    padding: 8,
+    backgroundColor: "#FFF",
   },
 });
 
