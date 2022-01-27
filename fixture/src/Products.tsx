@@ -1,5 +1,13 @@
-import React from "react";
-import { View, Text, Image, StyleSheet, Button } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Button,
+  Animated,
+  TouchableOpacity,
+} from "react-native";
 import { RecyclerFlatList } from "@shopify/recycler-flat-list";
 import { products } from "./data/products.js";
 
@@ -27,14 +35,81 @@ const ProductCell = (data) => {
     </View>
   );
 };
-const Products = () => {
+
+const EditingItem = (props) => {
+  const appear = useRef(new Animated.Value(0)).current;
+
+  const [selected, setSelected] = useState(false);
+
+  const ToggleSelected = () => {
+    setSelected(!selected);
+  };
+
+  useEffect(() => {
+    const newValue = props.editing ? 44 : 0;
+    Animated.spring(appear, {
+      toValue: newValue,
+      bounciness: 0,
+      useNativeDriver: false,
+    }).start();
+  }, [appear, props.editing]);
+
+  return (
+    <TouchableOpacity
+      onPress={ToggleSelected}
+      style={[
+        { flexDirection: "row", alignItems: "center" },
+        selected ? styles.selected : { backgroundColor: "#FFF" },
+      ]}
+    >
+      <Animated.View style={{ width: appear, alignItems: "center" }}>
+        <Image
+          style={{ width: 20, height: 20 }}
+          source={
+            props.editing && selected
+              ? require("./assets/on.png")
+              : require("./assets/off.png")
+          }
+        ></Image>
+      </Animated.View>
+      <View
+        style={[
+          { flexGrow: 1 },
+          props.editing && selected
+            ? styles.selected
+            : { backgroundColor: "#FFF" },
+        ]}
+      >
+        {props.children}
+      </View>
+    </TouchableOpacity>
+  );
+};
+const Products = ({ navigation }) => {
+  const [editing, setEditing] = useState(false);
+
+  const StartEditing = () => {
+    setEditing(editing ? false : true);
+  };
+
+  navigation.setOptions({
+    headerRight: () => (
+      <Button onPress={StartEditing} title={editing ? "Done" : "Edit"} />
+    ),
+  });
+
   return (
     <RecyclerFlatList
       keyExtractor={(item) => {
-        return item.id;
+        return item.id + editing;
       }}
+      extraData={editing}
       renderItem={({ item }) => {
-        return <ProductCell item={item} />;
+        return (
+          <EditingItem editing={editing}>
+            <ProductCell item={item} />
+          </EditingItem>
+        );
       }}
       ListHeaderComponent={Header}
       ListHeaderCompomentStyle={{ backgroundColor: "#ccc" }}
@@ -72,7 +147,7 @@ const styles = StyleSheet.create({
   divider: {
     width: "100%",
     height: StyleSheet.hairlineWidth,
-    backgroundColor: "#aaa",
+    backgroundColor: "#ccc",
   },
   header: {
     height: 40,
@@ -123,7 +198,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 60,
     padding: 8,
-    backgroundColor: "#FFF",
+  },
+  selected: {
+    backgroundColor: "#efefef",
   },
 });
 
