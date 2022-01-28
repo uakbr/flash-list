@@ -24,8 +24,8 @@ export interface RecyclerFlatListProps<T> extends FlatListProps<T> {
   estimatedHeight: number;
 
   /**
-  * Visible height and width of the list. This is not the scroll content size.
-  */
+   * Visible height and width of the list. This is not the scroll content size.
+   */
   estimatedListSize?: { height: number; width: number };
 }
 
@@ -107,7 +107,7 @@ class RecyclerFlatList<T> extends React.PureComponent<
     numColumns: number,
     sizeProvider: (index) => number
   ) {
-    return new GridLayoutProvider(
+    const layoutProvider = new GridLayoutProvider(
       numColumns, //max span or, total columns
       (index) => {
         //type of the item for given index
@@ -122,6 +122,8 @@ class RecyclerFlatList<T> extends React.PureComponent<
         return sizeProvider(index);
       }
     );
+    layoutProvider.shouldRefreshWithAnchoring = false;
+    return layoutProvider;
   }
 
   onEndReached = () => {
@@ -151,7 +153,6 @@ class RecyclerFlatList<T> extends React.PureComponent<
           refreshControl: refreshControl,
         };
       }
-
       return (
         <RecyclerListView
           ref={this.recyclerRef}

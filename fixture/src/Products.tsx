@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { RecyclerFlatList } from "@shopify/recycler-flat-list";
 import { products } from "./data/products.js";
+import FastImage from "react-native-fast-image";
 
 export interface Product {
   name: string;
@@ -23,12 +24,12 @@ const ProductCell = (data) => {
   return (
     <View style={styles.productCell}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{ uri: product.image }} />
+        <FastImage style={styles.image} source={{ uri: product.image }} />
       </View>
       <View>
         <Text style={styles.title}>{product.name}</Text>
         <Text style={styles.subtitle}>
-          {product.variants} available · {product.variants} variants ·{" "}
+          {product.stock} available · {product.variants} variants ·{" "}
           {product.status}
         </Text>
       </View>
@@ -36,87 +37,143 @@ const ProductCell = (data) => {
   );
 };
 
+const Checkbox = ({ editing, selected }) => {
+  return (
+    <Image
+      style={{ width: 20, height: 20, display: !editing ? "none" : "flex" }}
+      source={
+        editing && selected
+          ? require("./assets/on.png")
+          : require("./assets/off.png")
+      }
+    ></Image>
+  );
+};
+
 const EditingItem = (props) => {
   const appear = useRef(new Animated.Value(0)).current;
-
   const [selected, setSelected] = useState(false);
+  const editing = props.editing;
 
   const ToggleSelected = () => {
+    if (!editing) return;
+    props.onSelectToggle(props.index);
     setSelected(!selected);
   };
 
   useEffect(() => {
-    const newValue = props.editing ? 44 : 0;
+    setSelected(props.selected);
+  }, [props.selected]);
+
+  useEffect(() => {
+    const newValue = props.editing ? 44 : 8;
     Animated.spring(appear, {
       toValue: newValue,
       bounciness: 0,
       useNativeDriver: false,
     }).start();
-  }, [appear, props.editing]);
+  }, [appear, editing]);
+
+  const rowStyle = [
+    { flexGrow: 1, backgroundColor: "#FFF" },
+    editing && selected ? styles.selected : {},
+  ];
+
+  const touchableStyle = [
+    styles.editingItemTouchable,
+    editing && selected ? styles.selected : {},
+  ];
 
   return (
     <TouchableOpacity
       onPress={ToggleSelected}
-      style={[
-        { flexDirection: "row", alignItems: "center" },
-        selected ? styles.selected : { backgroundColor: "#FFF" },
-      ]}
+      style={touchableStyle}
+      disabled={!editing}
     >
-      <Animated.View style={{ width: appear, alignItems: "center" }}>
-        <Image
-          style={{ width: 20, height: 20 }}
-          source={
-            props.editing && selected
-              ? require("./assets/on.png")
-              : require("./assets/off.png")
-          }
-        ></Image>
-      </Animated.View>
-      <View
-        style={[
-          { flexGrow: 1 },
-          props.editing && selected
-            ? styles.selected
-            : { backgroundColor: "#FFF" },
-        ]}
+      <Animated.View
+        style={{
+          width: appear,
+          alignItems: "center",
+        }}
       >
-        {props.children}
-      </View>
+        <Checkbox selected={selected} editing={editing} />
+      </Animated.View>
+      <View style={rowStyle}>{props.children}</View>
     </TouchableOpacity>
   );
 };
+
+const productsMult = products
+  .map(function (elem) {
+    return products;
+  })
+  .flat();
+
 const Products = ({ navigation }) => {
   const [editing, setEditing] = useState(false);
+  const [selected, setSelected] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const StartEditing = () => {
+    setSelected([]);
     setEditing(editing ? false : true);
   };
-
+  const shopifyGreen = "#058060";
   navigation.setOptions({
+    headerTintColor: shopifyGreen,
+    title: editing ? "Select products" : "Products",
     headerRight: () => (
-      <Button onPress={StartEditing} title={editing ? "Done" : "Edit"} />
+      <Button
+        onPress={StartEditing}
+        color={shopifyGreen}
+        title={editing ? "Done" : "Select"}
+      />
     ),
   });
 
+  const OnSelectToggle = (index) => {
+    const s = selected;
+    if (selected.includes(index)) {
+      s.pop(index);
+    } else {
+      s.push(index);
+    }
+    setSelected(s);
+  };
+  const OnRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+
   return (
     <RecyclerFlatList
+      refreshing={refreshing}
+      onRefresh={OnRefresh}
       keyExtractor={(item) => {
-        return item.id + editing;
+        return item.id;
       }}
-      extraData={editing}
-      renderItem={({ item }) => {
+      extraData={{ editing: editing, selected: selected }}
+      renderItem={(data, index) => {
+        const item = data.item;
         return (
-          <EditingItem editing={editing}>
+          <EditingItem
+            editing={editing}
+            onSelectToggle={OnSelectToggle}
+            index={data.index}
+            selected={index ? selected.includes(index) : false}
+          >
             <ProductCell item={item} />
           </EditingItem>
         );
       }}
       ListHeaderComponent={Header}
       ListHeaderCompomentStyle={{ backgroundColor: "#ccc" }}
-      ListFooterComponent={Footer}
-      estimatedHeight={150}
+      // ListFooterComponent={Footer}
+      estimatedHeight={60}
       ItemSeparatorComponent={Divider}
-      data={products}
+      data={productsMult}
     />
   );
 };
@@ -130,6 +187,12 @@ const HeaderButton = ({ title }) => {
 };
 
 const Header = () => {
+  return (
+    <Image
+      style={{ width: "100%", height: 110, resizeMode: "contain" }}
+      source={require("./assets/fakeheader.png")}
+    />
+  );
   return (
     <View style={styles.header}>
       <HeaderButton title="All"></HeaderButton>
@@ -148,31 +211,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: StyleSheet.hairlineWidth,
     backgroundColor: "#ccc",
-  },
-  header: {
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  footer: {
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  headerTitle: {
-    color: "#FFFFFF",
-    padding: 8,
-    borderRadius: 12,
-    fontSize: 12,
-  },
-  footerTitle: {
-    padding: 8,
-    borderRadius: 12,
-    fontSize: 12,
-  },
-  headerButton: {
-    backgroundColor: "green",
   },
   imageContainer: {
     width: 44,
@@ -196,11 +234,17 @@ const styles = StyleSheet.create({
   },
   productCell: {
     flexDirection: "row",
-    height: 60,
-    padding: 8,
+    paddingRight: 8,
+    paddingTop: 8,
+    paddingBottom: 8,
   },
   selected: {
     backgroundColor: "#efefef",
+  },
+  editingItemTouchable: {
+    flexDirection: "row",
+    backgroundColor: "#FFF",
+    alignItems: "center",
   },
 });
 

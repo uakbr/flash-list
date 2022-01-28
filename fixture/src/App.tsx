@@ -26,7 +26,6 @@ const App = () => {
     console.log(`Blank area: ${blankArea}`);
   });
   useReactNativePerformanceFlipperPlugin();
-
   return (
     <NavigationContainer>
       <Stack.Navigator>

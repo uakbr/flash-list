@@ -63,5 +63,8 @@
     "ios",
     "dist",
     "RNRecyclerFlatList.podspec"
-  ]
+  ],
+  "dependencies": {
+    "react-native-fast-image": "^8.5.11"
+  }
 }
