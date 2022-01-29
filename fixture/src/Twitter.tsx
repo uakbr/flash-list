@@ -7,21 +7,25 @@ import TweetCell from "./TweetCell";
 
 const Twitter = () => {
   return (
-    <RecyclerFlatList
-      keyExtractor={(item) => {
-        return item.id;
-      }}
-      renderItem={({ item }) => {
-        return <TweetCell item={item} />;
-      }}
-      ListHeaderComponent={Header}
-      ListHeaderCompomentStyle={{ backgroundColor: "#ccc" }}
-      ListFooterComponent={Footer}
-      estimatedItemSize={150}
-      ItemSeparatorComponent={Divider}
-      data={tweets}
-      numColumns={2}
-    />
+    <View style={{ justifyContent: "flex-start" }}>
+      <RecyclerFlatList
+        keyExtractor={(item) => {
+          return item.id;
+        }}
+        renderItem={({ item }) => {
+          return <TweetCell item={item} />;
+        }}
+        ListHeaderComponent={Header}
+        ListHeaderCompomentStyle={{ backgroundColor: "#ccc" }}
+        //ListFooterComponent={Footer}
+        estimatedItemSize={150}
+        ItemSeparatorComponent={Divider}
+        data={tweets}
+        horizontal={true}
+        estimatedListSize={{ height: 100, width: 100 }}
+      />
+      <View style={{ backgroundColor: "red", height: 100 }}></View>
+    </View>
   );
 };
 

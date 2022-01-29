@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     minHeight: 44,
     flex: 1,
     padding: 16,
+    width: 200,
     backgroundColor: "#FFF",
   },
   rowTop: {

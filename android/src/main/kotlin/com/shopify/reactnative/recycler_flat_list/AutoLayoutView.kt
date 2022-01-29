@@ -7,6 +7,7 @@ import android.view.View
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.WritableMap
+import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.events.RCTEventEmitter
 import com.facebook.react.views.view.ReactViewGroup
 
@@ -43,7 +44,36 @@ class AutoLayoutView(context: Context) : ReactViewGroup(context) {
             val positionSortedViews = Array(childCount) { getChildAt(it) as CellContainer }
             positionSortedViews.sortBy { it.index }
             alShadow.clearGapsAndOverlaps(positionSortedViews)
+//            (parent as View).let {
+//                it.bottom = (alShadow.height);
+//                it.layout(it.left, it.top, it.right, alShadow.height)
+//                it.requestLayout()
+//            }
+            this.bottom = this.top + alShadow.height
+            (parent as View).bottom = (parent as View).top + alShadow.height
+            (parent.parent as View).bottom = (parent.parent as View).top + alShadow.height
         }
+    }
+
+    override fun requestLayout() {
+        super.requestLayout()
+
+        // This view relies on a measure + layout pass happening after it calls requestLayout().
+        // https://github.com/facebook/react-native/issues/4990#issuecomment-180415510
+        // https://stackoverflow.com/questions/39836356/react-native-resize-custom-ui-component
+        post(measureAndLayout)
+    }
+
+    private val measureAndLayout = Runnable {
+        val p = (parent.parent as View)
+        p.measure(MeasureSpec.makeMeasureSpec(p.width, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(p.height, MeasureSpec.EXACTLY))
+        p.layout(p.left, p.top, p.right, p.bottom)
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        fixLayout()
+        super.onLayout(changed, left, top, right, bottom)
     }
 
     /** TODO: Check migration to Fabric*/

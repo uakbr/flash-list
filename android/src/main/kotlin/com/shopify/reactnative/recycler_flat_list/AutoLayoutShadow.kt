@@ -5,6 +5,7 @@ class AutoLayoutShadow {
     var scrollOffset: Int = 0
     var windowSize: Int = 0
     var renderOffset = 0
+    var height = 0
 
     var blankOffsetAtStart = 0 // Tracks blank area from the top
     var blankOffsetAtEnd = 0 // Tracks blank area from the bottom
@@ -17,6 +18,7 @@ class AutoLayoutShadow {
     fun clearGapsAndOverlaps(sortedItems: Array<CellContainer>) {
         var maxBound = 0
         var minBound = Int.MAX_VALUE
+        height = 0
         for (i in 0 until sortedItems.size - 1) {
             val cell = sortedItems[i]
             val neighbour = sortedItems[i + 1]
@@ -54,6 +56,7 @@ class AutoLayoutShadow {
                         neighbour.left = maxBound
                     }
                 }
+                height = kotlin.math.max(height, neighbour.height)
             }
         }
         lastMaxBound = maxBound

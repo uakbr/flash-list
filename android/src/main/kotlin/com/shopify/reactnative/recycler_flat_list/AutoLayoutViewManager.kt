@@ -1,11 +1,13 @@
 package com.shopify.reactnative.recycler_flat_list
 
+import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
 import com.facebook.react.views.view.ReactViewGroup
 import com.facebook.react.views.view.ReactViewManager
 import com.facebook.react.common.MapBuilder
+import com.facebook.react.uimanager.LayoutShadowNode
 import kotlin.math.roundToInt
 
 /** ViewManager for AutoLayoutView - Container for all RecyclerListView children. Automatically removes all gaps and overlaps for GridLayouts with flexible spans.
@@ -30,6 +32,10 @@ class AutoLayoutViewManager: ReactViewManager() {
                 Constants.EVENT_BLANK_AREA,
                 MapBuilder.of("registrationName", Constants.EVENT_BLANK_AREA)
         ).build()
+    }
+
+    override fun createShadowNodeInstance(context: ReactApplicationContext): LayoutShadowNode {
+        super.createShadowNodeInstance(context)
     }
 
     @ReactProp(name = "horizontal")
