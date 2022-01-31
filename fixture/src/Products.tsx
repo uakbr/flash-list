@@ -118,18 +118,20 @@ const Products = ({ navigation }) => {
     setSelected([]);
     setEditing(editing ? false : true);
   };
-  const shopifyGreen = "#058060";
-  navigation.setOptions({
-    headerTintColor: shopifyGreen,
-    title: editing ? "Select products" : "Products",
-    headerRight: () => (
-      <Button
-        onPress={StartEditing}
-        color={shopifyGreen}
-        title={editing ? "Done" : "Select"}
-      />
-    ),
-  });
+  useEffect(() => {
+    const shopifyGreen = "#058060";
+    navigation.setOptions({
+      headerTintColor: shopifyGreen,
+      title: editing ? "Select products" : "Products",
+      headerRight: () => (
+        <Button
+          onPress={StartEditing}
+          color={shopifyGreen}
+          title={editing ? "Done" : "Select"}
+        />
+      ),
+    });
+  }, [navigation]);
 
   const OnSelectToggle = (index) => {
     const s = selected;
