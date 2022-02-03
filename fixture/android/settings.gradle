@@ -3,3 +3,7 @@ apply from: file("../node_modules/@react-native-community/cli-platform-android/n
 include ':app'
 include ':recycler_flat_list'
 project(':recycler_flat_list').projectDir = new File(rootProject.projectDir, '../../android')
+
+include ':flipper-plugin-rn-performance-android'
+project(':flipper-plugin-rn-performance-android').projectDir = new File(rootProject.projectDir, '../node_modules/flipper-plugin-rn-performance-android')
+
