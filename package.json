@@ -54,6 +54,17 @@
     "src"
   ],
   "dependencies": {
-    "invariant": "^2.2.4"
+    "@babel/plugin-transform-flow-strip-types": "^7.16.7",
+    "invariant": "^2.2.4",
+    "react-native-codegen": "^0.0.13"
+  },
+  "codegenConfig": {
+    "libraries": [
+      {
+        "name": "FlashList",
+        "type": "components",
+        "jsSrcsDir": "src/fabric"
+      }
+    ]
   }
 }

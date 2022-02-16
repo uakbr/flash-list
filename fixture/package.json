@@ -13,7 +13,7 @@
     "@react-navigation/stack": "^6.0.11",
     "@shopify/react-native-performance-lists-profiler": "^0.0.3",
     "react": "17.0.2",
-    "react-native": "0.66.4",
+    "react-native": "0.0.0-20220201-2008-79975d146",
     "react-native-fast-image": "^8.5.11",
     "react-native-flipper": "^0.129.0",
     "react-native-gesture-handler": "^2.1.1",
@@ -22,12 +22,14 @@
     "recyclerlistview": "3.1.0-beta.5"
   },
   "devDependencies": {
-    "babel-plugin-module-resolver": "^4.1.0",
-    "flipper-plugin-rn-performance-android": "^0.1.0",
-    "glob": "^7.1.6",
-    "metro-config": "^0.66.2",
-    "metro-react-native-babel-preset": "^0.66.2",
-    "patch-package": "^6.4.7",
-    "postinstall-postinstall": "^2.1.0"
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.32.0",
+    "jest": "^26.6.3",
+    "metro-react-native-babel-preset": "^0.67.0",
+    "react-native-gradle-plugin": "^0.0.4",
+    "react-test-renderer": "17.0.2"
   }
 }

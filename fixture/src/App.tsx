@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import "react-native-gesture-handler";
+// import "react-native-gesture-handler";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -53,4 +53,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default FlatListPro;

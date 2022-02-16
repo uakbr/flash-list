@@ -1,5 +1,8 @@
 require 'json'
 
+folly_version = '2021.06.28.00-v2'
+folly_compiler_flags = '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32'
+
 package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
 
 Pod::Spec.new do |s|
@@ -14,6 +17,20 @@ Pod::Spec.new do |s|
   s.source_files     = 'ios/Sources/**/*'
   s.requires_arc     = true
   s.swift_version    = '5.0'
+
+  s.compiler_flags  = folly_compiler_flags
+
+  s.pod_target_xcconfig    = {
+    "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\""
+  }
+
+  s.dependency "React"
+  s.dependency "React-RCTFabric" # This is for fabric component
+  s.dependency "React-Codegen"
+  s.dependency "RCT-Folly", folly_version
+  s.dependency "RCTRequired"
+  s.dependency "RCTTypeSafety"
+  s.dependency "ReactCommon/turbomodule/core"
 
   # Dependencies
   s.dependency 'React-Core'

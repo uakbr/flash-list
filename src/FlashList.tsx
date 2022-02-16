@@ -16,8 +16,8 @@ import {
 } from "recyclerlistview";
 import StickyContainer, { StickyContainerProps } from "recyclerlistview/sticky";
 
-import AutoLayoutView, { BlankAreaEventHandler } from "./AutoLayoutView";
-import ItemContainer from "./CellContainer";
+// import AutoLayoutView, { BlankAreaEventHandler } from "./AutoLayoutView";
+// import ItemContainer from "./CellContainer";
 import WrapperComponent, { PureComponentWrapper } from "./WrapperComponent";
 import GridLayoutProviderWithProps from "./GridLayoutProviderWithProps";
 import CustomError from "./errors/CustomError";
@@ -96,7 +96,7 @@ export interface FlashListProps<T> extends FlatListProps<T> {
    * Please note that this event isn't synced with onScroll event but works with native onDraw/layoutSubviews. Events with values > 0 are blanks.
    * This event is raised even when there is no visible blank with negative values for extensibility however, for most use cases check blankArea > 0 and use the value.
    */
-  onBlankArea?: BlankAreaEventHandler;
+  // onBlankArea?: BlankAreaEventHandler;
 
   contentContainerStyle?: ContentStyle;
 }
@@ -377,7 +377,7 @@ class FlashList<T> extends React.PureComponent<
           inverted={this.props.inverted}
           renderer={this.header}
         />
-        <AutoLayoutView
+        {/* <AutoLayoutView
           {...props}
           onBlankAreaEvent={this.props.onBlankArea}
           onLayout={(event) => {
@@ -385,9 +385,18 @@ class FlashList<T> extends React.PureComponent<
               ? event.nativeEvent.layout.x
               : event.nativeEvent.layout.y;
           }}
+        > */}
+        <View
+          {...props}
+          onLayout={(event) => {
+            this.distanceFromWindow = this.props.horizontal
+              ? event.nativeEvent.layout.x
+              : event.nativeEvent.layout.y;
+          }}
         >
           {children}
-        </AutoLayoutView>
+        </View>
+        {/* </AutoLayoutView> */}
         <PureComponentWrapper
           enabled={children.length > 0}
           contentStyle={this.props.contentContainerStyle}
@@ -404,7 +413,17 @@ class FlashList<T> extends React.PureComponent<
 
   private itemContainer = (props, parentProps, children) => {
     return (
-      <ItemContainer
+      // <ItemContainer
+      //   {...props}
+      //   style={{
+      //     ...props.style,
+      //     flexDirection: this.props.horizontal ? "row" : "column",
+      //     alignItems: "stretch",
+      //     ...this.getTransform(),
+      //   }}
+      //   index={parentProps.index}
+      // >
+      <View
         {...props}
         style={{
           ...props.style,
@@ -412,7 +431,6 @@ class FlashList<T> extends React.PureComponent<
           alignItems: "stretch",
           ...this.getTransform(),
         }}
-        index={parentProps.index}
       >
         <WrapperComponent
           extendedState={parentProps.extendedState}
@@ -432,7 +450,7 @@ class FlashList<T> extends React.PureComponent<
           </View>
           {this.separator(parentProps.index)}
         </WrapperComponent>
-      </ItemContainer>
+      </View>
     );
   };
 

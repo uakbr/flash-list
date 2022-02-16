@@ -24,20 +24,23 @@ export const ExamplesScreen = () => {
       destination: NavigationKeys.TWITTER_FLAT_LIST,
     },
   ];
+
+  console.log(data[0].title);
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <FlatList
-        keyExtractor={(item) => item.destination}
+        // keyExtractor={(item) => item.destination}
         data={data}
-        renderItem={({ item }) => (
+        renderItem={(item) => (
           <TouchableOpacity
             style={styles.row}
             onPress={() => {
-              navigate(item.destination);
+              navigate(item.item.destination);
             }}
           >
-            <Text style={styles.rowTitle}>{item.title}</Text>
+            <Text style={styles.rowTitle}>{item.item.title}</Text>
           </TouchableOpacity>
         )}
       />

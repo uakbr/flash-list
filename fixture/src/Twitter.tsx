@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { FlashList } from "@shopify/flash-list";
+import FlashList from "@shopify/flash-list";
 import { RecyclerFlatListPerformanceView } from "@shopify/react-native-performance-lists-profiler";
 
 import { tweets } from "./data/tweets";

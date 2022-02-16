@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import React
+//import React
 
 @objc class BlankAreaView: UIView {
     private var observation: NSKeyValueObservation?
