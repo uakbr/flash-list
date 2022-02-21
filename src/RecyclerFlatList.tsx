@@ -15,10 +15,20 @@ import {
 } from "recyclerlistview";
 import invariant from "invariant";
 
+import Animated, {
+  FadeOut,
+  Layout,
+  SlideInDown,
+  SlideInLeft,
+  SlideInRight,
+  SlideOutRight,
+} from "react-native-reanimated";
+
 import AutoLayoutView, { BlankAreaEventHandler } from "./AutoLayoutView";
 import ItemContainer from "./CellContainer";
 import WrapperComponent from "./WrapperComponent";
 import GridLayoutProviderWithProps from "./GridLayoutProviderWithProps";
+import DefaultNativeItemAnimator from "./DefaultNativeItemAnimator";
 
 export interface RecyclerFlatListProps<T> extends FlatListProps<T> {
   // TODO: This is to make eslint silent. Out prettier and lint rules are conflicting.
@@ -143,6 +153,7 @@ class RecyclerFlatList<T> extends React.PureComponent<
     }
     if (nextProps.data !== oldState.data) {
       newState.data = nextProps.data;
+
       newState.dataProvider = oldState.dataProvider.cloneWithRows(
         nextProps.data as any[]
       );
@@ -216,7 +227,7 @@ class RecyclerFlatList<T> extends React.PureComponent<
 
   render() {
     if (this.state.dataProvider.getSize() === 0) {
-      return this.props.ListEmptyComponent || null;
+      return [this.header(0), this.props.ListEmptyComponent || null];
     } else {
       let style = this.props.style ?? {};
       if (this.props.inverted === true) {
