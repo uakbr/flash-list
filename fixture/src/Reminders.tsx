@@ -1,22 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   View,
   Text,
   Image,
   StyleSheet,
-  FlatList,
   TextInput,
   Button,
   TouchableOpacity,
-  TouchableWithoutFeedbackBase,
   TouchableWithoutFeedback,
 } from "react-native";
 import { RecyclerFlatList } from "@shopify/recycler-flat-list";
-import Animated, {
-  FadeOut,
-  Layout,
-  SlideOutRight,
-} from "react-native-reanimated";
+import Animated, { FadeOut, Layout } from "react-native-reanimated";
 
 interface Reminder {
   title: string;
@@ -29,14 +23,14 @@ const Checkbox = (props) => {
       <Image
         style={styles.checkboxImage}
         source={require("./assets/checkboxOn.png")}
-      ></Image>
+      />
     );
   } else {
     return (
       <Image
         style={styles.checkboxImage}
         source={require("./assets/checkboxOff.png")}
-      ></Image>
+      />
     );
   }
 };
@@ -75,10 +69,10 @@ const ReminderCell = (props) => {
         }}
         value={item.title}
         autoFocus
-        multiline={true}
+        multiline
         numberOfLines={0}
         onKeyPress={({ nativeEvent: { key: keyValue } }) => {
-          if (keyValue == "Enter") {
+          if (keyValue === "Enter") {
             props.onIntroPressed();
             return false;
           }
@@ -86,17 +80,17 @@ const ReminderCell = (props) => {
         onEndEditing={(text) => {
           console.log(currentValue.current.text);
 
-          if (currentValue.current.text.length == 0) {
+          if (currentValue.current.text.length === 0) {
             props.onCompleted();
           }
         }}
-      ></TextInput>
+      />
     </Animated.View>
   );
 };
 
 const Reminders = () => {
-  const [reminders, setReminders] = React.useState([] as Array<Reminder>);
+  const [reminders, setReminders] = React.useState([] as Reminder[]);
 
   const addReminder = () => {
     setReminders([...reminders, { title: "", selected: false }]);
@@ -106,10 +100,10 @@ const Reminders = () => {
   };
 
   const updateTitle = (item: Reminder, title) => {
-    let index = reminders.indexOf(item);
-    let elem = reminders[index];
-    let updatedElem = { ...elem, title: title };
-    let items = [...reminders];
+    const index = reminders.indexOf(item);
+    const elem = reminders[index];
+    const updatedElem = { ...elem, title };
+    const items = [...reminders];
     items[index] = updatedElem;
     setReminders(items);
   };
@@ -159,7 +153,7 @@ const Reminders = () => {
           data={reminders}
         />
         <View style={styles.bottomButton}>
-          <Button title="Add Reminder" onPress={addReminder}></Button>
+          <Button title="Add Reminder" onPress={addReminder} />
         </View>
       </View>
     </TouchableWithoutFeedback>
