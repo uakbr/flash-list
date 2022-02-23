@@ -144,9 +144,16 @@ class RecyclerFlatList<T> extends React.PureComponent<
     if (nextProps.data !== oldState.data) {
       newState.data = nextProps.data;
 
-      newState.dataProvider = oldState.dataProvider.cloneWithRows(
-        nextProps.data as any[]
-      );
+      newState.dataProvider = new DataProvider(
+        (r1, r2) => {
+          return r1 !== r2;
+        },
+        (index, item) => {
+          console.log("Index " + index);
+          console.log(item);
+          return nextProps?.keyExtractor?.(item, index) || index.toString();
+        }
+      ).cloneWithRows(nextProps.data as any[]);
       newState.extraData = { ...oldState.extraData };
     }
     if (nextProps.extraData !== oldState.extraData?.value) {
@@ -266,6 +273,7 @@ class RecyclerFlatList<T> extends React.PureComponent<
           maxRenderAhead={3 * drawDistance}
           finalRenderAheadOffset={drawDistance}
           renderAheadStep={drawDistance}
+          optimizeForInsertDeleteAnimations={true}
           {...this.props.overrideProps}
         />
       );

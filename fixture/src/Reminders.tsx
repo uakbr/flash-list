@@ -5,12 +5,17 @@ import {
   Image,
   StyleSheet,
   TextInput,
+  FlatList,
   Button,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
 import { RecyclerFlatList } from "@shopify/recycler-flat-list";
-import Animated, { FadeOut, Layout } from "react-native-reanimated";
+import Animated, {
+  FadeOut,
+  Layout,
+  SlideOutRight,
+} from "react-native-reanimated";
 
 interface Reminder {
   title: string;
@@ -54,7 +59,7 @@ const ReminderCell = (props) => {
   }, [on]);
 
   return (
-    <Animated.View style={styles.cell} layout={Layout} exiting={FadeOut}>
+    <Animated.View style={styles.cell} layout={Layout} exiting={SlideOutRight}>
       <View style={styles.checkbox}>
         <TouchableOpacity onPress={toggle}>
           <Checkbox on={on} />
@@ -80,9 +85,9 @@ const ReminderCell = (props) => {
         onEndEditing={(text) => {
           console.log(currentValue.current.text);
 
-          if (currentValue.current.text.length === 0) {
-            props.onCompleted();
-          }
+          // if (currentValue.current.text.length === 0) {
+          //   props.onCompleted();
+          // }
         }}
       />
     </Animated.View>
@@ -94,14 +99,18 @@ const Reminders = () => {
 
   const addReminder = () => {
     setReminders([...reminders, { title: "", selected: false }]);
-    setTimeout(() => {
-      list.current.scrollToEnd({ animated: false });
-    }, 400);
+    // setTimeout(() => {
+    //   list.current.scrollToEnd({ animated: false });
+    // }, 400);
   };
 
   const updateTitle = (item: Reminder, title) => {
     const index = reminders.indexOf(item);
+    console.log(index);
+
     const elem = reminders[index];
+    console.log(elem);
+
     const updatedElem = { ...elem, title };
     const items = [...reminders];
     items[index] = updatedElem;
@@ -109,11 +118,16 @@ const Reminders = () => {
   };
 
   const removeItem = (reminder: Reminder) => {
+    console.log("remove item called");
+
     const remaining = reminders.filter((i) => {
       return i.title !== reminder.title;
     });
     setReminders([...remaining]);
   };
+  useEffect(() => {
+    console.log(reminders);
+  }, [reminders]);
 
   const list = useRef(null);
 
@@ -136,7 +150,7 @@ const Reminders = () => {
                   updateTitle(item.item, text);
                 }}
                 onCompleted={() => {
-                  removeItem(item.item);
+                  // removeItem(item.item);
                 }}
                 onIntroPressed={() => {
                   addReminder();
