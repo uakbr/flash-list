@@ -1,12 +1,28 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  LayoutAnimation,
+  Pressable,
+} from "react-native";
 import { RecyclerFlatList } from "@shopify/recycler-flat-list";
 import { RecyclerFlatListPerformanceView } from "@shopify/react-native-performance-lists-profiler";
 
-import { tweets } from "./data/tweets";
+import { tweets as tweetsData } from "./data/tweets";
 import TweetCell from "./TweetCell";
 
 const Twitter = () => {
+  const [tweets, setTweets] = useState(tweetsData);
+  const removeItem = (id) => {
+    const filteredTweets = tweets.filter((item) => {
+      return item.id !== id;
+    });
+    setTweets(filteredTweets);
+    // after removing the item, we start animation
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  };
+
   return (
     <RecyclerFlatListPerformanceView listName="Twitter">
       <RecyclerFlatList
@@ -14,7 +30,15 @@ const Twitter = () => {
           return item.id;
         }}
         renderItem={({ item }) => {
-          return <TweetCell item={item} />;
+          return (
+            <Pressable
+              onPress={() => {
+                removeItem(item.id);
+              }}
+            >
+              <TweetCell item={item} />
+            </Pressable>
+          );
         }}
         ListHeaderComponent={Header}
         ListHeaderCompomentStyle={{ backgroundColor: "#ccc" }}

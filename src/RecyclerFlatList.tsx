@@ -134,7 +134,7 @@ class RecyclerFlatList<T> extends React.PureComponent<
     }
     this.distanceFromWindow = props.estimatedFirstItemOffset || 0;
     // eslint-disable-next-line react/state-in-constructor
-    this.state = RecyclerFlatList.getInitialMutableState();
+    this.state = RecyclerFlatList.getInitialMutableState(this);
   }
 
   private validateProps() {
@@ -182,13 +182,20 @@ class RecyclerFlatList<T> extends React.PureComponent<
     return newState;
   }
 
-  private static getInitialMutableState<T>(): RecyclerFlatListState<T> {
+  private static getInitialMutableState<T>(rfl: any): RecyclerFlatListState<T> {
     return {
       data: null,
       layoutProvider: null!!,
-      dataProvider: new DataProvider((r1, r2) => {
-        return r1 !== r2;
-      }),
+      dataProvider: new DataProvider(
+        (r1, r2) => {
+          return r1 !== r2;
+        },
+        (index) => {
+          return rfl.props
+            .keyExtractor(rfl.props.data[index], index)
+            .toString();
+        }
+      ),
       numColumns: 0,
     };
   }
@@ -280,6 +287,7 @@ class RecyclerFlatList<T> extends React.PureComponent<
       >
         <ProgressiveListView
           {...restProps}
+          optimizeForInsertDeleteAnimations
           ref={this.recyclerRef}
           layoutProvider={this.state.layoutProvider}
           dataProvider={this.state.dataProvider}
@@ -337,17 +345,7 @@ class RecyclerFlatList<T> extends React.PureComponent<
           inverted={this.props.inverted}
           renderer={this.header}
         />
-        <AutoLayoutView
-          {...props}
-          onBlankAreaEvent={this.props.onBlankArea}
-          onLayout={(event) => {
-            this.distanceFromWindow = this.props.horizontal
-              ? event.nativeEvent.layout.x
-              : event.nativeEvent.layout.y;
-          }}
-        >
-          {children}
-        </AutoLayoutView>
+        {children}
         <PureComponentWrapper
           enabled={children.length > 0}
           contentStyle={this.props.contentContainerStyle}
