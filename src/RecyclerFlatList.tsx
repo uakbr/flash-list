@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import {
   DataProvider,
+  LayoutProvider,
   ProgressiveListView,
   RecyclerListView,
   RecyclerListViewProps,
@@ -107,6 +108,8 @@ interface ExtraData<T> {
   value?: T;
 }
 
+const data: any = [];
+
 class RecyclerFlatList<T> extends React.PureComponent<
   RecyclerFlatListProps<T>,
   RecyclerFlatListState<T>
@@ -178,7 +181,7 @@ class RecyclerFlatList<T> extends React.PureComponent<
     if (nextProps.extraData !== prevState.extraData?.value) {
       newState.extraData = { value: nextProps.extraData };
     }
-    newState.layoutProvider.updateProps(nextProps);
+    // newState.layoutProvider.updateProps(nextProps);
     return newState;
   }
 
@@ -229,6 +232,11 @@ class RecyclerFlatList<T> extends React.PureComponent<
         return mutableLayout?.span || 1;
       },
       (index, props, mutableLayout) => {
+        if (props.data[index] % 2 === 0) {
+          return 100;
+        } else {
+          return 200;
+        }
         // estimated size of the item an given index
         props.overrideItemLayout?.(
           mutableLayout,
@@ -301,7 +309,7 @@ class RecyclerFlatList<T> extends React.PureComponent<
             style: { ...(style as object), ...this.getTransform() },
             ...this.props.overrideProps,
           }}
-          forceNonDeterministicRendering
+          forceNonDeterministicRendering={false}
           renderItemContainer={this.itemContainer}
           renderContentContainer={this.container}
           onEndReached={this.onEndReached}
