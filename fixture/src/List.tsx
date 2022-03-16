@@ -2,53 +2,62 @@
  Use this component inside your React Native Application.
  A scrollable list with different item type
  */
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 
 /** *
  * To test out just copy this component and render in you root component
  */
-export default class List extends React.Component {
-  state = {
-    refreshing: false,
+
+const generateArray = (size: number) => {
+  const arr = new Array(size);
+  for (let i = 0; i < size; i++) {
+    arr[i] = { value: i };
+  }
+  return arr;
+};
+
+const List = () => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [data, setData] = useState(generateArray(3000));
+
+  const renderItem = ({ item }: { item: { value: number } }) => {
+    const backgroundColor = item.value % 2 === 0 ? "#00a1f1" : "#ffbb00";
+    return (
+      <View
+        style={{
+          ...styles.container,
+          backgroundColor,
+          height: item.value % 2 === 0 ? 100 : 200,
+        }}
+      >
+        <Text>Cell Id: {item.value}</Text>
+      </View>
+    );
   };
 
-  private _generateArray(size: number) {
-    const arr = new Array(size);
-    for (let i = 0; i < size; i++) {
-      arr[i] = i;
-    }
-    return arr;
-  }
+  return (
+    <FlashList
+      refreshing={refreshing}
+      onRefresh={() => {
+        setRefreshing(true);
+        setTimeout(() => {
+          setData(generateArray(2));
+          setRefreshing(false);
+        }, 100);
+      }}
+      keyExtractor={(item: { value: number }) => {
+        return item.value.toString();
+      }}
+      renderItem={renderItem}
+      estimatedItemSize={100}
+      data={data}
+    />
+  );
+};
 
-  render() {
-    return (
-      <FlashList
-        refreshing={this.state.refreshing}
-        onRefresh={() => {
-          this.setState({ refreshing: true });
-          setTimeout(() => {
-            this.setState({ refreshing: false });
-          }, 2000);
-        }}
-        keyExtractor={(item: number) => {
-          return item.toString();
-        }}
-        renderItem={({ item }: { item: number }) => {
-          const backgroundColor = item % 2 === 0 ? "#00a1f1" : "#ffbb00";
-          return (
-            <View style={{ ...styles.container, backgroundColor }}>
-              <Text>Cell Id: {item}</Text>
-            </View>
-          );
-        }}
-        estimatedItemSize={100}
-        data={this._generateArray(3000)}
-      />
-    );
-  }
-}
+export default List;
 
 const styles = StyleSheet.create({
   container: {
