@@ -8,10 +8,10 @@ import {
 import { FlashListPerformanceView } from "@shopify/react-native-performance-lists-profiler";
 
 import TweetCell from "./TweetCell";
-import { tweets } from "./data/tweets";
-import { BenchConfig } from "./restyle/Constants";
+import { tweets } from "../data/tweets";
+import { BenchConfig } from "./Constants";
 
-const Twitter = () => {
+const TwitterRestyle = () => {
   const ref = useRef(null);
   useBenchmark(
     ref,
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Twitter;
+export default TwitterRestyle;

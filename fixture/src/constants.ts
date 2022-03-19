@@ -5,6 +5,7 @@ export const NavigationKeys = {
   PAGINATED_LIST: "PaginatedList" as const,
   TWITTER: "Twitter" as const,
   TWITTER_FLAT_LIST: "TwitterFlatList" as const,
+  TWITTER_RESTYLE: "TwitterRestyle" as const,
 };
 
 type ValueOf<T> = T[keyof T];

@@ -24,6 +24,10 @@ export const ExamplesScreen = () => {
       title: "Twitter FlatList Timeline",
       destination: NavigationKeys.TWITTER_FLAT_LIST,
     },
+    {
+      title: "Twitter Restyle",
+      destination: NavigationKeys.TWITTER_RESTYLE,
+    },
   ];
   return (
     <>
