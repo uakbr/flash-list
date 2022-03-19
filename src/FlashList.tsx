@@ -17,7 +17,7 @@ import StickyContainer, { StickyContainerProps } from "recyclerlistview/sticky";
 
 import AutoLayoutView, { BlankAreaEventHandler } from "./AutoLayoutView";
 import ItemContainer from "./CellContainer";
-import WrapperComponent, { PureComponentWrapper } from "./WrapperComponent";
+import { PureComponentWrapper } from "./WrapperComponent";
 import GridLayoutProviderWithProps from "./GridLayoutProviderWithProps";
 import CustomError from "./errors/CustomError";
 import ExceptionList from "./errors/ExceptionList";
@@ -338,7 +338,7 @@ class FlashList<T> extends React.PureComponent<
           ref={this.recyclerRef}
           layoutProvider={this.state.layoutProvider}
           dataProvider={this.state.dataProvider}
-          rowRenderer={this.rowRenderer}
+          rowRenderer={this.dummyRowRenderer}
           canChangeSize
           isHorizontal={Boolean(horizontal)}
           scrollViewProps={{
@@ -454,24 +454,13 @@ class FlashList<T> extends React.PureComponent<
         }}
         index={parentProps.index}
       >
-        <WrapperComponent
+        <PureComponentWrapper
           extendedState={parentProps.extendedState}
           internalSnapshot={parentProps.internalSnapshot}
-          dataHasChanged={parentProps.dataHasChanged}
           data={parentProps.data}
-        >
-          <View
-            style={{
-              flexDirection:
-                this.props.horizontal || this.props.numColumns === 1
-                  ? "column"
-                  : "row",
-            }}
-          >
-            {children}
-          </View>
-          {this.separator(parentProps.index)}
-        </WrapperComponent>
+          renderer={this.rowRendererWithIndex}
+          arg={parentProps.index}
+        ></PureComponentWrapper>
       </ItemContainer>
     );
   };
@@ -594,11 +583,25 @@ class FlashList<T> extends React.PureComponent<
   };
 
   private rowRendererWithIndex = (index: number) => {
-    return this.rowRenderer(
-      undefined,
-      this.props.data?.[index],
-      index,
-      this.state.extraData
+    return (
+      <>
+        <View
+          style={{
+            flexDirection:
+              this.props.horizontal || this.props.numColumns === 1
+                ? "column"
+                : "row",
+          }}
+        >
+          {this.rowRenderer(
+            undefined,
+            this.props.data?.[index],
+            index,
+            this.state.extraData
+          )}
+        </View>
+        {this.separator(index)}
+      </>
     );
   };
 
@@ -610,6 +613,10 @@ class FlashList<T> extends React.PureComponent<
       extraData: extraData?.value,
     } as any) as JSX.Element;
   };
+
+  private dummyRowRenderer() {
+    return null;
+  }
 
   private recyclerRef = (ref: any) => {
     this.rlvRef = ref;
