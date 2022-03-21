@@ -12,6 +12,7 @@ export interface BenchmarkParams {
 
   // Can be used to increase or decrease speed of scrolling
   speedMultiplier?: number;
+  repeat?: number
 }
 
 export interface BenchmarkResult {
@@ -62,7 +63,9 @@ export function useBenchmark(
     const cancelTimeout = setTimeout(async () => {
       const jsFpsMonitor = new JSFpsMonitor();
       jsFpsMonitor.startTracking();
-      await runScrollBenchmark(ref, cancellable, params.speedMultiplier || 1);
+      for (let i = 0; i < (params?.repeat || 1); i++) {
+        await runScrollBenchmark(ref, cancellable, params.speedMultiplier || 1);
+      }
       const jsProfilerResponse = jsFpsMonitor.stopAndGetData();
       if (jsProfilerResponse.averageFps < 35) {
         suggestions.push(

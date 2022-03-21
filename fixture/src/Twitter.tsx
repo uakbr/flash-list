@@ -18,7 +18,7 @@ const Twitter = () => {
     (res) => {
       alert(res.formattedString);
     },
-    { speedMultiplier: BenchConfig.speedMultiplier }
+    { ...BenchConfig }
   );
   const [data] = useDataMultiplier(tweets, 1000);
   return (

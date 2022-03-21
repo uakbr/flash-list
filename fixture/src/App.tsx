@@ -32,7 +32,7 @@ const App = () => {
         console.log(`TTI in millis: ${TTI}`);
       }}
       onBlankArea={(offsetStart, offsetEnd) => {
-        console.log(`Blank area: ${Math.max(offsetStart, offsetEnd)}`);
+        //console.log(`Blank area: ${Math.max(offsetStart, offsetEnd)}`);
       }}
     >
       <ThemeProvider theme={theme}>

@@ -1,3 +1,4 @@
 export const BenchConfig = {
-  speedMultiplier: 1,
+  speedMultiplier: 5,
+  repeat: 10,
 };
