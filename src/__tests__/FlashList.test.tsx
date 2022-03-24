@@ -1,11 +1,28 @@
 import React from "react";
-import { ScrollView, Text } from "react-native";
+import { Text } from "react-native";
 import "@quilted/react-testing/matchers";
 import { mount } from "@quilted/react-testing";
 import { ProgressiveListView } from "recyclerlistview";
 
 import FlashList from "../FlashList";
 import Warnings from "../errors/Warnings";
+
+// const ActualFlashList = jest.requireActual("../FlashList");
+// class MockFlashList<T> extends ActualFlashList<T> {
+//   render() {
+//     // const FlashListRealModule = jest.requireActual("../FlashList");
+//     return <ActualFlashList {...this.props} />;
+//   }
+// }
+
+// function MockFlashList<T>(props: FlashListProps<T>) {
+//   // useLayoutEffect(() => {
+//   //   console.log("loaded");
+//   // });
+//   return <FlashList {...props} />;
+// }
+
+// jest.mock("../FlashList", () => MockFlashList);
 
 describe("FlashList", () => {
   const mountFlashList = (props?: {
@@ -23,9 +40,9 @@ describe("FlashList", () => {
         data={["One", "Two"]}
       />
     );
-    flashList.findAll(ScrollView)[0].trigger("onLayout", {
-      nativeEvent: { layout: { height: 900, width: 400 } },
-    });
+    // flashList.findAll(ScrollView)[0].trigger("onLayout", {
+    //   nativeEvent: { layout: { height: 900, width: 400 } },
+    // });
     return flashList;
   };
 
@@ -53,6 +70,8 @@ describe("FlashList", () => {
       keyExtractor: (item) => item,
     });
     const warn = jest.spyOn(console, "warn");
+    console.log(flashList);
+    console.log(flashList.instance);
     const prepareForLayoutAnimationRender = jest.spyOn(
       flashList.instance.rlvRef,
       "prepareForLayoutAnimationRender"
