@@ -1,7 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import {
+  Swipeable,
+  SwipeableIOSAction,
+} from "@shopify/react-native-swipe-actions";
 import React from "react";
-import { Pressable } from "react-native";
+import { Image, Pressable, StyleSheet } from "react-native";
 
 import { RootStackParamList } from "../constants";
 
@@ -15,15 +19,46 @@ export interface TweetCellProps {
 const TweetCell = ({ tweet }: TweetCellProps) => {
   const { navigate } =
     useNavigation<StackNavigationProp<RootStackParamList, "Twitter">>();
+  const rightActions: SwipeableIOSAction[] = [
+    {
+      color: "red",
+      destructive: true,
+      renderContent: () => (
+        <Image
+          style={styles.action}
+          source={{
+            uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/1200px-Trash_font_awesome.svg.png",
+          }}
+          resizeMode="cover"
+        />
+      ),
+      onPress: () => {},
+    },
+  ];
   return (
-    <Pressable
-      onPress={() => {
-        navigate("TweetDetailScreen", { tweet });
-      }}
+    /* eslint-disable react/jsx-pascal-case */
+    <Swipeable.iOS
+      identifier={tweet.id}
+      rightActions={rightActions}
+      rightFullSwipeEnabled
     >
-      <TweetContent tweet={tweet} />
-    </Pressable>
+      <Pressable
+        onPress={() => {
+          navigate("TweetDetailScreen", { tweet });
+        }}
+      >
+        <TweetContent tweet={tweet} />
+      </Pressable>
+    </Swipeable.iOS>
   );
 };
+
+const styles = StyleSheet.create({
+  action: {
+    width: 24,
+    height: 24,
+    tintColor: "white",
+  },
+});
 
 export default TweetCell;
