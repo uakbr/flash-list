@@ -52,6 +52,7 @@
     "jestSetup.js"
   ],
   "dependencies": {
+    "@shopify/react-native-swipe-actions": "file:localModules/shopify-react-native-swipe-actions-v0.1.0.tgz",
     "recyclerlistview": "3.2.0-beta.2"
   }
 }

@@ -10,6 +10,11 @@ import {
   ViewProps,
   Pressable,
 } from "react-native";
+import {
+  Swipeable,
+  SwipeableIOSAction,
+  SwipeableProvider,
+} from "@shopify/react-native-swipe-actions";
 import { FlashList } from "@shopify/flash-list";
 import Animated, { FadeOut, Layout } from "react-native-reanimated";
 
@@ -50,6 +55,25 @@ const ReminderCell = ({
     setChecked(!checked);
   };
 
+  const rightActions: SwipeableIOSAction[] = [
+    {
+      color: "red",
+      destructive: true,
+      renderContent: () => (
+        <Image
+          style={styles.action}
+          source={{
+            uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/1200px-Trash_font_awesome.svg.png",
+          }}
+          resizeMode="cover"
+        />
+      ),
+      onPress: () => {
+        onCompleted(item);
+      },
+    },
+  ];
+
   useEffect(() => {
     if (!checked) {
       return;
@@ -63,45 +87,58 @@ const ReminderCell = ({
   }, [checked, item, onCompleted]);
 
   return (
-    <Animated.View
-      onLayout={onLayout}
-      style={styles.cell}
-      layout={Layout}
-      exiting={FadeOut}
+    /* eslint-disable react/jsx-pascal-case */
+    <Swipeable.iOS
+      identifier={item.id}
+      rightActions={rightActions}
+      rightFullSwipeEnabled
     >
-      <View style={styles.checkbox}>
-        <Pressable onPress={toggle}>
-          <Checkbox checked={checked} />
-        </Pressable>
-      </View>
-      <TextInput
-        style={styles.textInput}
-        onChangeText={(newText) => {
-          const newTextNoLineBrakes = newText.replace("\n", "");
-          onChangeText(item, newTextNoLineBrakes);
-        }}
-        value={item.title}
-        autoFocus
-        multiline
-        numberOfLines={0}
-        onKeyPress={({ nativeEvent: { key: keyValue } }) => {
-          if (keyValue === "Enter") {
-            onIntroPressed();
-            return false;
-          }
-        }}
-        onEndEditing={() => {
-          if (item.title.length === 0) {
-            onCompleted(item);
-          }
-        }}
-      />
-    </Animated.View>
+      <Animated.View
+        onLayout={onLayout}
+        style={styles.cell}
+        layout={Layout}
+        exiting={FadeOut}
+      >
+        <View style={styles.checkbox}>
+          <Pressable onPress={toggle}>
+            <Checkbox checked={checked} />
+          </Pressable>
+        </View>
+        <TextInput
+          style={styles.textInput}
+          onChangeText={(newText) => {
+            const newTextNoLineBrakes = newText.replace("\n", "");
+            onChangeText(item, newTextNoLineBrakes);
+          }}
+          value={item.title}
+          autoFocus
+          multiline
+          numberOfLines={0}
+          onKeyPress={({ nativeEvent: { key: keyValue } }) => {
+            if (keyValue === "Enter") {
+              onIntroPressed();
+              return false;
+            }
+          }}
+          onEndEditing={() => {
+            if (item.title.length === 0) {
+              onCompleted(item);
+            }
+          }}
+        />
+      </Animated.View>
+    </Swipeable.iOS>
   );
 };
 
 const Reminders = () => {
-  const [reminders, setReminders] = useState<Reminder[]>([]);
+  const newID = () => {
+    return Math.random().toString(36).substring(2, 15);
+  };
+  const [reminders, setReminders] = useState<Reminder[]>([
+    { id: newID(), title: "Buy milk", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+  ]);
 
   const lastCreatedId = useRef<string>("");
 
@@ -109,12 +146,11 @@ const Reminders = () => {
     createEmptyReminder();
   };
   const createEmptyReminder = () => {
-    const newID = Math.random().toString(36).substring(2, 15);
-    lastCreatedId.current = newID;
+    lastCreatedId.current = newID();
     setReminders((prevReminders) => [
       ...prevReminders,
       {
-        id: newID,
+        id: lastCreatedId.current,
         title: "",
         selected: false,
       },
@@ -188,17 +224,19 @@ const Reminders = () => {
           justifyContent: "space-between",
         }}
       >
-        <FlashList
-          ref={list}
-          renderItem={renderItem}
-          keyExtractor={(item: Reminder) => {
-            return item.id;
-          }}
-          ListHeaderComponent={Header}
-          estimatedItemSize={50}
-          ItemSeparatorComponent={Divider}
-          data={reminders}
-        />
+        <SwipeableProvider>
+          <FlashList
+            ref={list}
+            renderItem={renderItem}
+            keyExtractor={(item: Reminder) => {
+              return item.id;
+            }}
+            ListHeaderComponent={Header}
+            estimatedItemSize={50}
+            ItemSeparatorComponent={Divider}
+            data={reminders}
+          />
+        </SwipeableProvider>
         <View style={styles.bottomButton}>
           <Button title="Add Reminder" onPress={addReminder} />
         </View>
@@ -263,6 +301,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 6,
     marginBottom: 12,
+  },
+  action: {
+    width: 24,
+    height: 24,
+    tintColor: "white",
   },
 });
 
