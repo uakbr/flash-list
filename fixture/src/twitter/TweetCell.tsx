@@ -36,7 +36,6 @@ const TweetCell = ({ tweet }: TweetCellProps) => {
     },
   ];
   return (
-    /* eslint-disable react/jsx-pascal-case */
     <Swipeable.iOS
       identifier={tweet.id}
       rightActions={rightActions}

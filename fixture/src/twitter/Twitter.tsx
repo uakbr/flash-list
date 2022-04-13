@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { FlashList } from "@shopify/flash-list";
+import { View, Text, StyleSheet, ActivityIndicator, Alert } from "react-native";
+import { FlashList, useBenchmark } from "@shopify/flash-list";
 import { FlashListPerformanceView } from "@shopify/react-native-performance-lists-profiler";
 import { SwipeableProvider } from "@shopify/react-native-swipe-actions";
 
@@ -8,6 +8,7 @@ import { DebugContext } from "../Debug";
 
 import TweetCell from "./TweetCell";
 import { tweets as tweetsData } from "./data/tweets";
+import Tweet from "./models/Tweet";
 
 const Twitter = () => {
   const debugContext = useContext(DebugContext);
@@ -16,11 +17,16 @@ const Twitter = () => {
   const [tweets, setTweets] = useState(
     debugContext.pagingEnabled ? [...tweetsData].splice(0, 10) : tweetsData
   );
+  const flashListRef = useRef<FlashList<Tweet>>(null);
+  // useBenchmark(flashListRef, (report) => {
+  //   Alert.alert("Report", report.formattedString ?? "");
+  // });
 
   return (
     <FlashListPerformanceView listName="Twitter">
       <SwipeableProvider>
         <FlashList
+          ref={flashListRef}
           testID="FlashList"
           keyExtractor={(item) => {
             return item.id;

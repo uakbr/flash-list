@@ -176,7 +176,7 @@ function computeSuggestions(
       );
     }
     const distanceFromWindow = roundToDecimalPlaces(
-      ref.current.getFirstItemOffset(),
+      ref.current.firstItemOffset,
       0
     );
     if (
