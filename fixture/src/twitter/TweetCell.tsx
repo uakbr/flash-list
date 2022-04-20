@@ -4,8 +4,17 @@ import {
   Swipeable,
   SwipeableIOSAction,
 } from "@shopify/react-native-swipe-actions";
-import React from "react";
+import React, { useRef } from "react";
 import { Image, Pressable, StyleSheet } from "react-native";
+import {
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent,
+} from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
 
 import { RootStackParamList } from "../constants";
 
@@ -19,7 +28,17 @@ export interface TweetCellProps {
 const TweetCell = ({ tweet }: TweetCellProps) => {
   const { navigate } =
     useNavigation<StackNavigationProp<RootStackParamList, "Twitter">>();
-  const rightActions: SwipeableIOSAction[] = [
+  const callback = () => {};
+  const panHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>(
+    {
+      onStart: () => {},
+      onActive: () => {},
+      onEnd: () => {},
+    },
+    [callback]
+  );
+  // console.log(panHandlerTwo, panHandlerThree);
+  const rightActions: SwipeableIOSAction[] = useRef([
     {
       color: "red",
       destructive: true,
@@ -32,9 +51,8 @@ const TweetCell = ({ tweet }: TweetCellProps) => {
           resizeMode="cover"
         />
       ),
-      onPress: () => {},
     },
-  ];
+  ]).current;
   return (
     <Swipeable.iOS
       identifier={tweet.id}

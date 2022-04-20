@@ -21,7 +21,7 @@ export interface FlatListBenchmarkParams extends BenchmarkParams {
  * It's recommended to remove pagination while running the benchmark. Removing the onEndReached callback is the easiest way to do that.
  */
 export function useFlatListBenchmark(
-  ref: React.MutableRefObject<FlatList<any>>,
+  ref: React.RefObject<FlatList<any>>,
   callback: (profilerResponse: BenchmarkResult) => void,
   params: FlatListBenchmarkParams
 ) {
@@ -61,7 +61,7 @@ export function useFlatListBenchmark(
 }
 
 async function runScrollBenchmark(
-  ref: React.MutableRefObject<FlatList<any>>,
+  ref: React.RefObject<FlatList<any>>,
   targetOffset: number,
   cancellable: Cancellable,
   scrollSpeedMultiplier: number

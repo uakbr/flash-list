@@ -18,9 +18,9 @@ const Twitter = () => {
     debugContext.pagingEnabled ? [...tweetsData].splice(0, 10) : tweetsData
   );
   const flashListRef = useRef<FlashList<Tweet>>(null);
-  // useBenchmark(flashListRef, (report) => {
-  //   Alert.alert("Report", report.formattedString ?? "");
-  // });
+  useBenchmark(flashListRef, (report) => {
+    Alert.alert("Report", report.formattedString ?? "");
+  });
 
   return (
     <FlashListPerformanceView listName="Twitter">

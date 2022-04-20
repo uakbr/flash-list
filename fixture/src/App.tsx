@@ -26,9 +26,7 @@ const App = () => {
       onInteractive={(TTI) => {
         console.log(`TTI in millis: ${TTI}`);
       }}
-      onBlankArea={(offsetStart, offsetEnd) => {
-        console.log(`Blank area: ${Math.max(offsetStart, offsetEnd)}`);
-      }}
+      onBlankArea={(offsetStart, offsetEnd) => {}}
     >
       <DebugContextProvider>
         <NavigationTree />

@@ -34,7 +34,7 @@ export interface BlankAreaBenchmarkResult {
  */
 
 export function useBenchmark(
-  ref: React.MutableRefObject<FlashList<any>>,
+  ref: React.RefObject<FlashList<any>>,
   callback: (profilerResponse: BenchmarkResult) => void,
   params: BenchmarkParams = {}
 ) {
@@ -121,7 +121,7 @@ export function getFormattedString(res: BenchmarkResult) {
 }
 
 async function runScrollBenchmark(
-  ref: React.MutableRefObject<FlashList<any>>,
+  ref: React.RefObject<FlashList<any>>,
   cancellable: Cancellable,
   scrollSpeedMultiplier: number
 ): Promise<void> {
@@ -166,7 +166,7 @@ async function runScrollBenchmark(
   }
 }
 function computeSuggestions(
-  ref: React.MutableRefObject<FlashList<any>>,
+  ref: React.RefObject<FlashList<any>>,
   suggestions: string[]
 ) {
   if (ref.current) {
