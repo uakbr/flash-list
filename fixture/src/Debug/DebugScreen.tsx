@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet, Switch } from "react-native";
 import { FlashList } from "@shopify/flash-list";
-import { TextInput } from "react-native-gesture-handler";
+// import { TextInput } from "react-native-gesture-handler";
 
 import { DebugContext, DebugContextInterface } from "./DebugContext";
 import { getDebugItems, DebugItem, DebugOptionType } from "./DebugOptions";
@@ -48,16 +48,15 @@ const renderInput = (item: DebugItem) => {
       />
     );
   } else if (item.type === DebugOptionType.Input) {
-    return (
-      <TextInput
-        onChangeText={(value) => {
-          item.onValue(Number(value));
-        }}
-        placeholder="Set value"
-        value={item.value?.toString()}
-        keyboardType="number-pad"
-      />
-    );
+    return null;
+    // <TextInput
+    //   onChangeText={(value) => {
+    //     item.onValue(Number(value));
+    //   }}
+    //   placeholder="Set value"
+    //   value={item.value?.toString()}
+    //   keyboardType="number-pad"
+    // />
   }
 };
 
