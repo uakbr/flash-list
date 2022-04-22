@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import "react-native-gesture-handler";
+// import "react-native-gesture-handler";
 import React from "react";
 import { ListsProfiler } from "@shopify/react-native-performance-lists-profiler";
 import { Platform, UIManager } from "react-native";
@@ -15,6 +15,7 @@ import { DebugContextProvider } from "./Debug";
 import NavigationTree from "./NavigationTree";
 
 const App = () => {
+  console.log("isFabric", Boolean((global as any)?.nativeFabricUIManager));
   if (Platform.OS === "android") {
     if (UIManager.setLayoutAnimationEnabledExperimental) {
       UIManager.setLayoutAnimationEnabledExperimental(true);

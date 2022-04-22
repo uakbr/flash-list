@@ -24,10 +24,11 @@
     "react-native-fast-image": "^8.5.11",
     "react-native-flipper": "^0.142.0",
     "react-native-gesture-handler": "^2.3.2",
-    "react-native-safe-area-context": "^3.3.2",
+    "react-native-safe-area-context": "^4.1.4",
     "react-native-screens": "^3.13.1"
   },
   "devDependencies": {
+    "@react-native/babel-plugin-codegen": "^0.0.6",
     "@types/jest": "^27.4.1",
     "@types/pixelmatch": "^5.2.4",
     "@types/pngjs": "^6.0.1",

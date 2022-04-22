@@ -47,10 +47,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#ifdef FB_SONARKIT_ENABLED
-    InitializeFlipper(application);
-#endif
-
+    RCTAppSetupPrepareApp(application);
     RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
 #if RCT_NEW_ARCH_ENABLED
@@ -61,9 +58,7 @@ static void InitializeFlipper(UIApplication *application) {
     bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
 #endif
 
-    RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                     moduleName:@"FlatListPro"
-                                              initialProperties:nil];
+    UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"FlatListPro", nil);
 
     if (@available(iOS 13.0, *)) {
         rootView.backgroundColor = [UIColor systemBackgroundColor];
