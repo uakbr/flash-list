@@ -735,9 +735,21 @@ PODS:
     - SDWebImage (~> 5.11.1)
     - SDWebImageWebPCoder (~> 0.8.4)
   - RNFlashList (0.4.6):
-    - React-Core
+    - RCT-Folly (= 2021.06.28.00-v2)
+    - RCTRequired
+    - RCTTypeSafety
+    - React
+    - React-Codegen
+    - React-RCTFabric
+    - ReactCommon/turbomodule/core
   - RNFlashList/Tests (0.4.6):
-    - React-Core
+    - RCT-Folly (= 2021.06.28.00-v2)
+    - RCTRequired
+    - RCTTypeSafety
+    - React
+    - React-Codegen
+    - React-RCTFabric
+    - ReactCommon/turbomodule/core
   - RNGestureHandler (2.4.1):
     - RCT-Folly (= 2021.06.28.00-v2)
     - RCTRequired
@@ -1013,7 +1025,7 @@ SPEC CHECKSUMS:
   ReactCommon: fab89a13b52f1ac42b59a0e4b4f76f21aea9eebe
   ReactNativePerformanceListsProfiler: 3f9453c24a90c4f77db568d984c48f380968fa0d
   RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
-  RNFlashList: b2c9c65e5fd564882da3b9c94030b522ee67f4f1
+  RNFlashList: e76751ee0bec6fe35d1b61600d752055205cfa2f
   RNGestureHandler: 8a225c1225054a526c981bbc9b0ce312f51ba35e
   RNScreens: 9c1dfa815b0e70f24453f6acd1fb26090ddd38cb
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d

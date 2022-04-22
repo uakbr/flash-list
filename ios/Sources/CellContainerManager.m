@@ -1,8 +1,15 @@
-#import <Foundation/Foundation.h>
-#import <React/RCTViewManager.h>
+#import <RNFlashList-Swift.h>
+#import "CellContainerManager.h"
 
-@interface RCT_EXTERN_MODULE(CellContainerManager, RCTViewManager)
+@implementation CellContainerManager
 
-RCT_EXPORT_VIEW_PROPERTY(index, NSInteger)
+RCT_EXPORT_MODULE(CellContainer)
+
+RCT_EXPORT_VIEW_PROPERTY(index, NSInteger);
+
+- (UIView *)view
+{
+    return [CellContainer  new];
+}
 
 @end
