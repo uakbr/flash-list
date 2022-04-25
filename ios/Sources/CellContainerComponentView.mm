@@ -1,3 +1,4 @@
+#ifdef RN_FABRIC_ENABLED
 #import "CellContainerComponentView.h"
 #import <React/RCTConversions.h>
 
@@ -53,3 +54,4 @@ Class<RCTComponentViewProtocol> CellContainerCls(void)
 {
   return CellContainerComponentView.class;
 }
+#endif /* RN_FABRIC_ENABLED */

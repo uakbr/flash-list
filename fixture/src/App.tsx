@@ -15,7 +15,6 @@ import { DebugContextProvider } from "./Debug";
 import NavigationTree from "./NavigationTree";
 
 const App = () => {
-  console.log("isFabric", Boolean((global as any)?.nativeFabricUIManager));
   if (Platform.OS === "android") {
     if (UIManager.setLayoutAnimationEnabledExperimental) {
       UIManager.setLayoutAnimationEnabledExperimental(true);
