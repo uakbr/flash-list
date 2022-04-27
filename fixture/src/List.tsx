@@ -11,6 +11,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { FlashList } from "@shopify/flash-list";
+import Animated, { Layout } from "react-native-reanimated";
 
 const generateArray = (size: number) => {
   const arr = new Array(size);
@@ -32,35 +33,37 @@ const List = () => {
         return dataItem !== item;
       })
     );
-    list.current?.prepareForLayoutAnimationRender();
+    // list.current?.prepareForLayoutAnimationRender();
     // after removing the item, we start animation
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   };
 
   const renderItem = ({ item }: { item: number }) => {
     const backgroundColor = item % 2 === 0 ? "#00a1f1" : "#ffbb00";
     return (
-      <Pressable
-        onPress={() => {
-          removeItem(item);
-        }}
-      >
-        <View
-          style={{
-            ...styles.container,
-            backgroundColor,
-            height: item % 2 === 0 ? 100 : 200,
+      <Animated.View layout={Layout.duration(3000)}>
+        <Pressable
+          onPress={() => {
+            removeItem(item);
           }}
         >
-          <Text>Cell Id: {item}</Text>
-        </View>
-      </Pressable>
+          <View
+            style={{
+              ...styles.container,
+              backgroundColor,
+              height: item % 2 === 0 ? 100 : 200,
+            }}
+          >
+            <Text>Cell Id: {item}</Text>
+          </View>
+        </Pressable>
+      </Animated.View>
     );
   };
 
   return (
-    <FlashList
-      ref={list}
+    <Animated.FlatList
+      // ref={list}
       refreshing={refreshing}
       onRefresh={() => {
         setRefreshing(true);
@@ -72,7 +75,7 @@ const List = () => {
         return item.toString();
       }}
       renderItem={renderItem}
-      estimatedItemSize={100}
+      // estimatedItemSize={100}
       data={data}
     />
   );
