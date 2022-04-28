@@ -16,7 +16,11 @@ import {
   SwipeableProvider,
 } from "@shopify/react-native-swipe-actions";
 import { FlashList } from "@shopify/flash-list";
-import Animated, { FadeOut, Layout } from "react-native-reanimated";
+import Animated, {
+  FadeOut,
+  SlideInLeft,
+  Layout,
+} from "react-native-reanimated";
 
 interface Reminder {
   id: string;
@@ -94,10 +98,11 @@ const ReminderCell = ({
       rightFullSwipeEnabled
     >
       <Animated.View
-        onLayout={onLayout}
+        // onLayout={onLayout}
         style={styles.cell}
-        layout={Layout}
-        exiting={FadeOut}
+        layout={Layout.duration(3000)}
+        // exiting={FadeOut}
+        // entering={SlideInLeft}
       >
         <View style={styles.checkbox}>
           <Pressable onPress={toggle}>
@@ -138,6 +143,79 @@ const Reminders = () => {
   const [reminders, setReminders] = useState<Reminder[]>([
     { id: newID(), title: "Buy milk", selected: false },
     { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
+    { id: newID(), title: "Clean room", selected: false },
   ]);
 
   const lastCreatedId = useRef<string>("");
@@ -173,8 +251,8 @@ const Reminders = () => {
     (reminder: Reminder) => {
       list.current?.prepareForLayoutAnimationRender();
       setReminders(
-        reminders.filter(({ title }) => {
-          return title !== reminder.title;
+        reminders.filter(({ id }) => {
+          return id !== reminder.id;
         })
       );
     },

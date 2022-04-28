@@ -2,16 +2,20 @@
  Use this component inside your React Native Application.
  A scrollable list with different item type
  */
-import React, { useRef, useState } from "react";
+import React, { Children, useRef, useState } from "react";
 import {
   View,
   Text,
   Pressable,
   LayoutAnimation,
   StyleSheet,
+  LayoutChangeEvent,
 } from "react-native";
-import { FlashList } from "@shopify/flash-list";
-import Animated, { Layout } from "react-native-reanimated";
+import { AnimatedFlashList, FlashList } from "@shopify/flash-list";
+import Animated, {
+  BaseAnimationBuilder,
+  Layout,
+} from "react-native-reanimated";
 
 const generateArray = (size: number) => {
   const arr = new Array(size);
@@ -19,6 +23,26 @@ const generateArray = (size: number) => {
     arr[i] = i;
   }
   return arr;
+};
+
+const AnimatedView = Animated.createAnimatedComponent(View);
+
+const createCellRenderer = (itemLayoutAnimation?: BaseAnimationBuilder) => {
+  const cellRenderer: React.FC<{
+    onLayout: (event: LayoutChangeEvent) => void;
+  }> = (props) => {
+    return (
+      <AnimatedView
+        layout={itemLayoutAnimation}
+        onLayout={props.onLayout}
+        {...props}
+      >
+        {props.children}
+      </AnimatedView>
+    );
+  };
+
+  return cellRenderer;
 };
 
 const List = () => {
@@ -33,7 +57,7 @@ const List = () => {
         return dataItem !== item;
       })
     );
-    // list.current?.prepareForLayoutAnimationRender();
+    list.current?.prepareForLayoutAnimationRender();
     // after removing the item, we start animation
     // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   };
@@ -41,29 +65,30 @@ const List = () => {
   const renderItem = ({ item }: { item: number }) => {
     const backgroundColor = item % 2 === 0 ? "#00a1f1" : "#ffbb00";
     return (
-      <Animated.View layout={Layout.duration(3000)}>
-        <Pressable
-          onPress={() => {
-            removeItem(item);
+      <Pressable
+        onPress={() => {
+          removeItem(item);
+        }}
+      >
+        <View
+          style={{
+            ...styles.container,
+            backgroundColor,
+            height: item % 2 === 0 ? 100 : 200,
           }}
         >
-          <View
-            style={{
-              ...styles.container,
-              backgroundColor,
-              height: item % 2 === 0 ? 100 : 200,
-            }}
-          >
-            <Text>Cell Id: {item}</Text>
-          </View>
-        </Pressable>
-      </Animated.View>
+          <Text>Cell Id: {item}</Text>
+        </View>
+      </Pressable>
     );
   };
 
+  const cellRenderer = React.useMemo(() => createCellRenderer(Layout), []);
+
   return (
-    <Animated.FlatList
-      // ref={list}
+    <AnimatedFlashList
+      CellRendererComponent={cellRenderer}
+      ref={list}
       refreshing={refreshing}
       onRefresh={() => {
         setRefreshing(true);
@@ -75,7 +100,7 @@ const List = () => {
         return item.toString();
       }}
       renderItem={renderItem}
-      // estimatedItemSize={100}
+      estimatedItemSize={100}
       data={data}
     />
   );

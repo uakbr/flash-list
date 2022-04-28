@@ -16,13 +16,13 @@ import {
 } from "recyclerlistview";
 import StickyContainer, { StickyContainerProps } from "recyclerlistview/sticky";
 
-import AutoLayoutView, { BlankAreaEventHandler } from "./AutoLayoutView";
-import ItemContainer from "./CellContainer";
+import { BlankAreaEventHandler } from "./AutoLayoutView";
 import { PureComponentWrapper } from "./PureComponentWrapper";
 import GridLayoutProviderWithProps from "./GridLayoutProviderWithProps";
 import CustomError from "./errors/CustomError";
 import ExceptionList from "./errors/ExceptionList";
 import WarningList from "./errors/Warnings";
+import CellContainer from "./CellContainer";
 
 interface StickyProps extends StickyContainerProps {
   children: any;
@@ -480,13 +480,13 @@ class FlashList<T> extends React.PureComponent<
           inverted={this.props.inverted}
           renderer={this.header}
         />
-        <AutoLayoutView
+        {/* <AutoLayoutView
           {...props}
           onBlankAreaEvent={this.props.onBlankArea}
           onLayout={this.updateDistanceFromWindow}
-        >
-          {children}
-        </AutoLayoutView>
+        > */}
+        {children}
+        {/* </AutoLayoutView> */}
         <PureComponentWrapper
           enabled={children.length > 0}
           contentStyle={this.props.contentContainerStyle}
@@ -502,8 +502,10 @@ class FlashList<T> extends React.PureComponent<
   };
 
   private itemContainer = (props: any, parentProps: any) => {
+    // const { CellRendererComponent } = this.props;
+    // const ForceUnwrapped = CellRendererComponent!;
     return (
-      <ItemContainer
+      <CellContainer
         {...props}
         style={{
           ...props.style,
@@ -520,16 +522,16 @@ class FlashList<T> extends React.PureComponent<
           arg={parentProps.index}
           renderer={this.getCellContainerChild}
         />
-      </ItemContainer>
+      </CellContainer>
     );
   };
 
-  private updateDistanceFromWindow = (event: LayoutChangeEvent) => {
-    this.distanceFromWindow = this.props.horizontal
-      ? event.nativeEvent.layout.x
-      : event.nativeEvent.layout.y;
-    this.windowCorrectionConfig.value.windowShift = -this.distanceFromWindow;
-  };
+  // private updateDistanceFromWindow = (event: LayoutChangeEvent) => {
+  //   this.distanceFromWindow = this.props.horizontal
+  //     ? event.nativeEvent.layout.x
+  //     : event.nativeEvent.layout.y;
+  //   this.windowCorrectionConfig.value.windowShift = -this.distanceFromWindow;
+  // };
 
   private getTransform() {
     return (this.props.inverted && this.transformStyle) || undefined;
