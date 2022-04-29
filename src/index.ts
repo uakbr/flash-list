@@ -23,3 +23,4 @@ export {
 export { JSFPSMonitor, JSFPSResult } from "./benchmark/JSFPSMonitor";
 export { autoScroll, Cancellable } from "./benchmark/AutoScrollHelper";
 export { default as ViewToken } from "./ViewToken";
+export { default as CellContainer } from "./CellContainer";
