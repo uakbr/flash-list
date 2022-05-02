@@ -10,7 +10,8 @@ import {
   LayoutAnimation,
   StyleSheet,
 } from "react-native";
-import { FlashList } from "@shopify/flash-list";
+import { CellContainer, FlashList } from "@shopify/flash-list";
+import Animated, { Layout } from "react-native-reanimated";
 
 const generateArray = (size: number) => {
   const arr = new Array(size);
@@ -18,6 +19,20 @@ const generateArray = (size: number) => {
     arr[i] = i;
   }
   return arr;
+};
+
+const AnimatedFlashList = Animated.createAnimatedComponent(FlashList);
+
+const createCellRenderer = () => {
+  const cellRenderer: React.FC = (props) => {
+    return (
+      <Animated.View layout={Layout.duration(3000)}>
+        <CellContainer>{props.children}</CellContainer>
+      </Animated.View>
+    );
+  };
+
+  return cellRenderer;
 };
 
 const List = () => {
@@ -34,7 +49,7 @@ const List = () => {
     );
     list.current?.prepareForLayoutAnimationRender();
     // after removing the item, we start animation
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   };
 
   const renderItem = ({ item }: { item: number }) => {
@@ -58,8 +73,10 @@ const List = () => {
     );
   };
 
+  const cellRenderer = React.useMemo(() => createCellRenderer(), []);
+
   return (
-    <FlashList
+    <AnimatedFlashList
       ref={list}
       refreshing={refreshing}
       onRefresh={() => {
@@ -71,6 +88,7 @@ const List = () => {
       keyExtractor={(item: number) => {
         return item.toString();
       }}
+      CellRendererComponent={cellRenderer}
       renderItem={renderItem}
       estimatedItemSize={100}
       data={data}
