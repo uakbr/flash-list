@@ -33,10 +33,20 @@ const Twitter = ({ instance, blankAreaTracker }: TwitterProps) => {
     minimumViewTime: 1000,
   }).current;
 
+  const list = useRef<FlashList<number> | null>(null);
+
+  setTimeout(() => {
+    console.log("node: ", list.current?.getScrollableNode());
+    console.log("native scroll ref:", list.current?.getNativeScrollRef());
+    console.log("Scroll responder:", list.current?.getScrollResponder());
+    list.current?.flashScrollIndicators();
+    list.current?.setNativeProps({ scrollEnabled: false });
+  }, 500);
+
   return (
     <FlashListPerformanceView listName="Twitter">
       <FlashList
-        ref={instance}
+        ref={list}
         onBlankArea={blankAreaTracker}
         testID="FlashList"
         keyExtractor={(item) => {
