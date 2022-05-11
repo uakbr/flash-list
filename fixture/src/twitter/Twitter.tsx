@@ -7,7 +7,6 @@ import {
   ViewabilityConfig,
 } from "react-native";
 import { FlashList } from "@shopify/flash-list";
-import { FlashListPerformanceView } from "@shopify/react-native-performance-lists-profiler";
 
 import { DebugContext } from "../Debug";
 

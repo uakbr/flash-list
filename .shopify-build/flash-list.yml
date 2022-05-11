@@ -68,7 +68,7 @@ steps:
 
   - label: "Build Android :android:"
     container: android
-    timeout: 20m
+    timeout: 40m
     run:
       - bundle: ~
       - cd fixture
