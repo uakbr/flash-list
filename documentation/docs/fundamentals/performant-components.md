@@ -87,7 +87,7 @@ If you do any calculations that might take a lot of resources, consider memoizin
 
 ### `overrideItemType`
 
-**If your components are vastly different, consider leveraging the [`overrideItemType` prop](/usage#overrideitemtype)**. For example, if we were building a messages list, we could write it like this:
+**If you have different types of cell components and these are vastly different, consider leveraging the [`overrideItemType` prop](/usage#overrideitemtype)**. For example, if we were building a messages list, we could write it like this:
 
 ```ts
 // A message can be either a text or an image
