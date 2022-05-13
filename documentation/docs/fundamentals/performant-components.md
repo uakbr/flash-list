@@ -63,6 +63,24 @@ const MyItem = ({ item }) => {
 };
 ```
 
+There might be cases where React forces you to use `key` prop, such as when using `map`. In such cirumstances, ensure that the `key` is not tied to the `item` prop in any way, so the keys don't change when recycling.
+
+Let's imagine we want to display names of users:
+
+```ts
+const MyItem = ({ item }: { item: any }) => {
+  return (
+    <>
+      {item.users.map((user: any) => {
+        <Text key={user.id}>{user.name}</Text>;
+      })}
+    </>
+  );
+};
+```
+
+If we wrote our item component like this, the `Text` component would need to be re-created. Instead, we can do the following:
+
 ### Difficult calculations
 
 If you do any calculations that might take a lot of resources, consider memoizing it, making it faster, or removing it altogether. The render method of items should be as efficient as possible:
