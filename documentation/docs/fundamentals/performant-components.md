@@ -164,7 +164,7 @@ Since `MyHeavyComponent` does not directly depend on the `item` prop, `useMemo` 
 
 ```ts
 const MyHeavyComponent = () => {
-  return null;
+  return ...;
 };
 
 const MyItem = ({ item }: { item: any }) => {
