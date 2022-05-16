@@ -15,10 +15,15 @@ import { FlashList } from "@shopify/flash-list";
 const generateArray = (size: number) => {
   const arr = new Array(size);
   for (let i = 0; i < size; i++) {
-    arr[i] = i;
+    arr[i] = { number: i, array: [i * 10, i * 100, i * 1000] };
   }
   return arr;
 };
+
+interface Item {
+  number: number;
+  array: number[];
+}
 
 const List = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -26,10 +31,10 @@ const List = () => {
 
   const list = useRef<FlashList<number> | null>(null);
 
-  const removeItem = (item: number) => {
+  const removeItem = (item: Item) => {
     setData(
       data.filter((dataItem) => {
-        return dataItem !== item;
+        return dataItem.number !== item.number;
       })
     );
     list.current?.prepareForLayoutAnimationRender();
@@ -37,8 +42,8 @@ const List = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   };
 
-  const renderItem = ({ item }: { item: number }) => {
-    const backgroundColor = item % 2 === 0 ? "#00a1f1" : "#ffbb00";
+  const renderItem = ({ item }: { item: Item }) => {
+    const backgroundColor = item.number % 2 === 0 ? "#00a1f1" : "#ffbb00";
     return (
       <Pressable
         onPress={() => {
@@ -49,10 +54,13 @@ const List = () => {
           style={{
             ...styles.container,
             backgroundColor,
-            height: item % 2 === 0 ? 100 : 200,
+            height: item.number % 2 === 0 ? 100 : 200,
           }}
         >
-          <Text>Cell Id: {item}</Text>
+          <Text>Cell Id: {item.number}</Text>
+          {item.array.map((number, index) => {
+            return <Text key={index}>Number: {number}</Text>;
+          })}
         </View>
       </Pressable>
     );
@@ -68,8 +76,8 @@ const List = () => {
           setRefreshing(false);
         }, 2000);
       }}
-      keyExtractor={(item: number) => {
-        return item.toString();
+      keyExtractor={(item: Item) => {
+        return item.number.toString();
       }}
       renderItem={renderItem}
       estimatedItemSize={100}
