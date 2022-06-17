@@ -1,8 +1,12 @@
 import React, { useContext, useRef, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
 import { BlankAreaEventHandler, FlashList } from "@shopify/flash-list";
-
-import { DebugContext } from "../Debug";
 
 import TweetCell from "./TweetCell";
 import { tweets as tweetsData } from "./data/tweets";
@@ -21,7 +25,7 @@ const Twitter = ({
   CellRendererComponent,
   disableAutoLayout,
 }: TwitterProps) => {
-  const debugContext = useContext(DebugContext);
+  const debugContext = useRef({}).current as any;
   const [refreshing, setRefreshing] = useState(false);
   const remainingTweets = useRef([...tweetsData].splice(10, tweetsData.length));
   const [tweets, setTweets] = useState(
@@ -30,8 +34,6 @@ const Twitter = ({
 
   return (
     <FlashList
-      ref={instance}
-      onBlankArea={blankAreaTracker}
       testID="FlashList"
       renderItem={({ item }) => {
         return <TweetCell tweet={item} />;
@@ -46,7 +48,6 @@ const Twitter = ({
           setTweets(reversedTweets);
         }, 500);
       }}
-      CellRendererComponent={CellRendererComponent}
       onEndReached={() => {
         if (!debugContext.pagingEnabled) {
           return;
@@ -70,7 +71,6 @@ const Twitter = ({
       ItemSeparatorComponent={Divider}
       data={debugContext.emptyListEnabled ? [] : tweets}
       initialScrollIndex={debugContext.initialScrollIndex}
-      disableAutoLayout={disableAutoLayout}
     />
   );
 };

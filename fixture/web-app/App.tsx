@@ -1,12 +1,12 @@
 import React from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 
-import List from "./List";
+import { Twitter } from "./twitter";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <List />
+      <Twitter />
     </View>
   );
 }

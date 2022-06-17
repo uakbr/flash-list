@@ -14,8 +14,8 @@ const TwitterFlatList = () => {
     <View style={{ flex: 1 }}>
       <FlatList
         testID="FlatList"
-        keyExtractor={(item) => {
-          return item.id;
+        keyExtractor={(_, index) => {
+          return index.toString();
         }}
         renderItem={({ item }) => {
           return <TweetCell tweet={item} />;
@@ -27,14 +27,6 @@ const TwitterFlatList = () => {
         ListEmptyComponent={Empty()}
         data={debugContext.emptyListEnabled ? [] : tweets}
         initialScrollIndex={debugContext.initialScrollIndex}
-        viewabilityConfig={{
-          waitForInteraction: true,
-          itemVisiblePercentThreshold: 50,
-          minimumViewTime: 1000,
-        }}
-        onViewableItemsChanged={(info) => {
-          console.log(info);
-        }}
       />
     </View>
   );
