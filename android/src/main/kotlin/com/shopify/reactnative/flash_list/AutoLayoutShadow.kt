@@ -7,6 +7,10 @@ class AutoLayoutShadow {
     var windowSize: Int = 0
     var renderOffset = 0
 
+    var lastStableId: String? = null;
+    var lastStableOffset = 0;
+    var pendingCorrection = 0;
+
     var blankOffsetAtStart = 0 // Tracks blank area from the top
     var blankOffsetAtEnd = 0 // Tracks blank area from the bottom
 
@@ -19,10 +23,18 @@ class AutoLayoutShadow {
         var maxBound = 0
         var minBound = Int.MAX_VALUE
         var maxBoundNeighbour = 0
+        var stableIdToMatch = lastStableId
+        var lastOffsetToCheck = lastStableOffset
+        var foundFirstCell = false
+        pendingCorrection = 0
         for (i in 0 until sortedItems.size - 1) {
             val cell = sortedItems[i]
             val neighbour = sortedItems[i + 1]
             if (isWithinBounds(cell)) {
+                if (!foundFirstCell) {
+                    foundFirstCell = true
+                    manageTrackedOffset(cell)
+                }
                 if (!horizontal) {
                     maxBound = kotlin.math.max(maxBound, cell.bottom);
                     minBound = kotlin.math.min(minBound, cell.top);
@@ -64,6 +76,7 @@ class AutoLayoutShadow {
                         maxBoundNeighbour = kotlin.math.max(maxBound, neighbour.right)
                     }
                 }
+                queueOffsetCorrection(cell, stableIdToMatch, lastOffsetToCheck)
             }
         }
         lastMaxBound = maxBoundNeighbour
@@ -89,6 +102,19 @@ class AutoLayoutShadow {
         } else {
             (cell.left >= (scrollOffset - renderOffset) || cell.right >= (scrollOffset - renderOffset)) &&
                     (cell.left <= scrollOffset + windowSize || cell.right <= scrollOffset + windowSize)
+        }
+    }
+
+    private fun manageTrackedOffset(cell: CellContainer) {
+        if (cell.stableId != null) {
+            lastStableId = cell.stableId
+            lastStableOffset = if (horizontal) cell.left else cell.top
+        }
+    }
+
+    private fun queueOffsetCorrection(cell: CellContainer, targetStableId: String?, targetStableOffset: Int) {
+        if (targetStableId != null && targetStableId == cell.stableId) {
+            pendingCorrection = targetStableOffset - if (horizontal) cell.left else cell.top
         }
     }
 }

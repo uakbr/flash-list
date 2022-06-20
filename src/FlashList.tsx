@@ -462,6 +462,7 @@ class FlashList<T> extends React.PureComponent<
           ...getCellContainerPlatformStyles(this.props.inverted!!, parentProps),
         }}
         index={parentProps.index}
+        stableId={this.state.dataProvider.getStableId(parentProps.index)}
       >
         <PureComponentWrapper
           extendedState={parentProps.extendedState}

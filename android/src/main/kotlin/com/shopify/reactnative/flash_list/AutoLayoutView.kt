@@ -3,6 +3,7 @@ package com.shopify.reactnative.flash_list
 import android.content.Context
 import android.graphics.Canvas
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
@@ -48,6 +49,23 @@ class AutoLayoutView(context: Context) : ReactViewGroup(context) {
         }
     }
 
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        (parent?.parent as View)?.let {
+            if (alShadow.horizontal) {
+                if (it.translationX > 0) {
+                    it.scrollX += it.translationX.toInt()
+                    it.translationX = 0f
+                }
+            } else {
+                if (it.translationY > 0) {
+                    it.scrollY += it.translationY.toInt()
+                    it.translationY = 0f
+                }
+            }
+        }
+        super.onLayout(changed, left, top, right, bottom)
+    }
+
     /** Sorts views by index and then invokes clearGaps which does the correction.
      * Performance: Sort is needed. Given relatively low number of views in RecyclerListView render tree this should be a non issue.*/
     private fun fixLayout() {
@@ -63,6 +81,16 @@ class AutoLayoutView(context: Context) : ReactViewGroup(context) {
             positionSortedViews.sortBy { it.index }
             alShadow.offsetFromStart = if (alShadow.horizontal) left else top
             alShadow.clearGapsAndOverlaps(positionSortedViews)
+            if (alShadow.pendingCorrection != 0) {
+                    Log.d("PendingCorrection", alShadow.pendingCorrection.toString())
+                (parent?.parent as View)?.let {
+                    if (alShadow.horizontal) {
+                        it.scrollX += alShadow.pendingCorrection
+                    } else {
+                        it.translationY += alShadow.pendingCorrection
+                    }
+                }
+            }
         }
     }
 
